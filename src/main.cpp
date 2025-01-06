@@ -1,5 +1,6 @@
 #include "main.h"
 
+
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
 // https://ez-robotics.github.io/EZ-Template/
@@ -8,8 +9,8 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {1, 2, 3},     // Left Chassis Ports (negative port will reverse it!)
-    {-4, -5, -6},  // Right Chassis Ports (negative port will reverse it!)
+    {-1, -2, -3},     // Left Chassis Ports (negative port will reverse it!)
+    {4, 5, 6},  // Right Chassis Ports (negative port will reverse it!)
 
     12,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
@@ -45,14 +46,14 @@ void initialize() {
 
   // Configure your chassis controls
   chassis.opcontrol_curve_buttons_toggle(true);   // Enables modifying the controller curve with buttons on the joysticks
-  chassis.opcontrol_drive_activebrake_set(0.0);   // Sets the active brake kP. We recommend ~2.  0 will disable.
-  chassis.opcontrol_curve_default_set(0.0, 0.0);  // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)
+  chassis.opcontrol_drive_activebrake_set(0);   // Sets the active brake kP. We recommend ~2.  0 will disable.
+  //chassis.opcontrol_curve_default_set(0.0, 0.0);  // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)
 
   // Set the drive to your own constants from autons.cpp!
   default_constants();
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
-  // chassis.opcontrol_curve_buttons_left_set(pros::E_CONTROLLER_DIGITAL_LEFT, pros::E_CONTROLLER_DIGITAL_RIGHT);  // If using tank, only the left side is used.
+   chassis.opcontrol_curve_buttons_left_set(pros::E_CONTROLLER_DIGITAL_LEFT, pros::E_CONTROLLER_DIGITAL_RIGHT);  // If using tank, only the left side is used.
   // chassis.opcontrol_curve_buttons_right_set(pros::E_CONTROLLER_DIGITAL_Y, pros::E_CONTROLLER_DIGITAL_A);
 
   // Autonomous Selector using LLEMU
@@ -77,7 +78,22 @@ void initialize() {
   chassis.initialize();
   ez::as::initialize();
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
+
+
+l_LB.tare_position();
+  LBPID.exit_condition_set(80, 50, 300, 150, 500, 500);
+
 }
+
+void lift_task() {
+  pros::delay(2000);  // Set EZ-Template calibrate before this function starts running
+  while (true) {
+    set_lift(LBPID.compute(l_LB.get_position()));
+
+    pros::delay(ez::util::DELAY_TIME);
+  }
+}
+pros::Task Lift_Task(lift_task);
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -241,20 +257,54 @@ void ez_template_extras() {
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
-
+chassis.opcontrol_joystick_practicemode_toggle(false);
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
-
-    chassis.opcontrol_tank();  // Tank control
-    // chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
+   // chassis.opcontrol_tank();  // Tank control
+     chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
 
-    // . . .
-    // Put more user control code here!
-    // . . .
+
+ if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
+      LBPID.target_set(1800);
+    }
+    else if (master.get_digital(DIGITAL_A)) {
+      LBPID.target_set(50);
+    }
+    else if (master.get_digital(DIGITAL_Y)) {
+      LBPID.target_set(300);
+    }
+
+
+
+
+
+  if (master.get_digital(DIGITAL_L1)) {  //Intake DC
+     intake.move(-127);
+  } 
+  else if (master.get_digital(DIGITAL_L2)) {
+     intake.move(127);
+  } 
+  else {
+     intake.move(0);
+  }
+
+
+if (master.get_digital(DIGITAL_R2)) {         //Mogo DC
+  MOGOClamp.set(true);
+} 
+else if (master.get_digital(DIGITAL_R1)) {
+  MOGOClamp.set(false);
+}   
+if (master.get_digital(DIGITAL_LEFT)) {         //Mogo DC
+  PIntake.set(false);
+}
+
+
+doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
