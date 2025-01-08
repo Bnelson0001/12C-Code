@@ -20,7 +20,7 @@ ez::Drive chassis(
 //  - you should get positive values on the encoders going FORWARD and RIGHT
 // - `2.75` is the wheel diameter
 // - `4.0` is the distance from the center of the wheel to the center of the robot
-ez::tracking_wheel horiz_tracker(-19, 2.75, .85);  // This tracking wheel is perpendicular to the drive wheels
+ez::tracking_wheel horiz_tracker(-19, 2, 2.785);  // This tracking wheel is perpendicular to the drive wheels
 // ez::tracking_wheel vert_tracker(9, 2.75, 4.0);   // This tracking wheel is parallel to the drive wheels
 
 /**
@@ -80,15 +80,17 @@ void initialize() {
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 
 
-l_LB.tare_position();
+r_LB.tare_position();
   LBPID.exit_condition_set(80, 50, 300, 150, 500, 500);
+
+chassis.pid_tuner_full_enable(true);  
 
 }
 
 void lift_task() {
   pros::delay(2000);  // Set EZ-Template calibrate before this function starts running
   while (true) {
-    set_lift(LBPID.compute(l_LB.get_position()));
+    set_lift(LBPID.compute(r_LB.get_position()));
 
     pros::delay(ez::util::DELAY_TIME);
   }
@@ -261,24 +263,22 @@ chassis.opcontrol_joystick_practicemode_toggle(false);
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
-   // chassis.opcontrol_tank();  // Tank control
-     chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
+   chassis.opcontrol_tank();  // Tank control
+     //chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
 
 
  if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
-      LBPID.target_set(1800);
+      LBPID.target_set(750);
     }
     else if (master.get_digital(DIGITAL_A)) {
       LBPID.target_set(50);
     }
     else if (master.get_digital(DIGITAL_Y)) {
-      LBPID.target_set(300);
+      LBPID.target_set(180);
     }
-
-
 
 
 
