@@ -100,18 +100,19 @@ void check_color() {
     while (true) {
 
         // Example threshold values for red and blue
-        if (color_value <= 20) { // Red
+        if ( OpColor.get_hue() < 20) { // Red
             PColor.set(true);
-            pros::delay(1500);
+            pros::lcd::print(0, "TRUE");
+    
         } else { // Blue
             PColor.set(false);
+           pros::lcd::print(0, "FALSE");
         }
         // Adding a delay to avoid excessive CPU usage
         pros::delay(20);
     }
 }
 pros::Task Lift_Task(lift_task);
-pros::Task color_task(check_color);
 
 
 /**
@@ -322,12 +323,6 @@ if (master.get_digital(DIGITAL_LEFT)) {         //Mogo DC
   PIntake.set(false);
 }
 
-        if (color_value <= 200) { // Red
-            PColor.set(true);
-
-        } else { // Blue
-            PColor.set(false);
-        }
 //doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
