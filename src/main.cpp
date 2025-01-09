@@ -100,7 +100,7 @@ void check_color() {
     while (true) {
 
         // Example threshold values for red and blue
-        if (color_value <= 200) { // Red
+        if (color_value <= 20) { // Red
             PColor.set(true);
             pros::delay(1500);
         } else { // Blue
@@ -277,6 +277,8 @@ void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 chassis.opcontrol_joystick_practicemode_toggle(false);
+pros::Task color_task(check_color);
+
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
@@ -285,8 +287,7 @@ chassis.opcontrol_joystick_practicemode_toggle(false);
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
-color_task;
-lift_task;
+
 
  if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
       LBPID.target_set(740);
@@ -321,8 +322,13 @@ if (master.get_digital(DIGITAL_LEFT)) {         //Mogo DC
   PIntake.set(false);
 }
 
+        if (color_value <= 200) { // Red
+            PColor.set(true);
 
-doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
+        } else { // Blue
+            PColor.set(false);
+        }
+//doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
