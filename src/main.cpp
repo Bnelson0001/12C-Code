@@ -95,7 +95,24 @@ void lift_task() {
     pros::delay(ez::util::DELAY_TIME);
   }
 }
+        int color_value = OpColor.get_hue();
+void check_color() {
+    while (true) {
+
+        // Example threshold values for red and blue
+        if (color_value <= 200) { // Red
+            PColor.set(true);
+            pros::delay(1500);
+        } else { // Blue
+            PColor.set(false);
+        }
+        // Adding a delay to avoid excessive CPU usage
+        pros::delay(20);
+    }
+}
 pros::Task Lift_Task(lift_task);
+pros::Task color_task(check_color);
+
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -268,16 +285,17 @@ chassis.opcontrol_joystick_practicemode_toggle(false);
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
-
+color_task;
+lift_task;
 
  if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
-      LBPID.target_set(750);
+      LBPID.target_set(740);
     }
     else if (master.get_digital(DIGITAL_A)) {
       LBPID.target_set(50);
     }
     else if (master.get_digital(DIGITAL_Y)) {
-      LBPID.target_set(180);
+      LBPID.target_set(135);
     }
 
 

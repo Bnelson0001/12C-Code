@@ -34,7 +34,8 @@ void intake_opcontrol();
 inline void set_intake(int input) {
   intake.move(input);
 }
-
+inline pros::Optical OpColor (14);
 inline ez::Piston doinker('F');
 inline ez::Piston PIntake('H');
 inline ez::Piston MOGOClamp('A');
+inline ez::Piston PColor('B');
