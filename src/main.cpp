@@ -100,7 +100,7 @@ void check_color() {
     while (true) {
 
         // Example threshold values for red and blue
-        if ( OpColor.get_hue() < 20) { // Red
+        if ( OpColor.get_hue() < 17) { // Red
             PColor.set(true);
             pros::lcd::print(0, "TRUE");
     
@@ -303,10 +303,10 @@ pros::Task color_task(check_color);
 
 
   if (master.get_digital(DIGITAL_L1)) {  //Intake DC
-     intake.move(-127);
+     intake.move(127);
   } 
   else if (master.get_digital(DIGITAL_L2)) {
-     intake.move(127);
+     intake.move(-127);
   } 
   else {
      intake.move(0);

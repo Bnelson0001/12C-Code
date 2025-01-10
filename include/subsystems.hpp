@@ -36,7 +36,7 @@ inline void set_intake(int input) {
 }
 inline pros::Optical OpColor (14);
 
-//inline ez::Piston doinker('F');
+inline ez::Piston doinker('D');
 inline ez::Piston PIntake('H');
 inline ez::Piston MOGOClamp('A');
 inline ez::Piston PColor('F');
