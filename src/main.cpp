@@ -149,6 +149,7 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
+  pros::Task color_task(check_color);
   chassis.pid_targets_reset();                // Resets PID targets to 0
   chassis.drive_imu_reset();                  // Reset gyro position to 0
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
@@ -323,7 +324,7 @@ if (master.get_digital(DIGITAL_LEFT)) {         //Mogo DC
   PIntake.set(false);
 }
 
-//doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
+doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
