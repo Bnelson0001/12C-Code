@@ -59,50 +59,41 @@ void blue_goal(){
   chassis.pid_drive_set(-25_in, DRIVE_SPEED, true); //drive to goal
     doinker.set(true); //put doinker down
     LBPID.target_set(200); //put up lady brown
-  chassis.pid_wait_quick_chain(); //wait for drive to finish
-  chassis.pid_drive_set(-13_in, DRIVE_SPEED, true);
-                   intake.move(127);
-  chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(15_in, DRIVE_SPEED);
-    doinker.set(false);
-       intake.move(0);
-  chassis.pid_wait_quick_chain();
-
-      doinker.set(true);
-      pros::delay(200);
-  chassis.pid_turn_set(-160_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-
-  // chassis.pid_turn_set(-60_deg, TURN_SPEED);
-          
+      chassis.pid_wait_quick_chain(); //wait for drive to finish
+  chassis.pid_drive_set(-13_in, DRIVE_SPEED, true); //keep driving forward
+    intake.move(127); //start spin intake
+      chassis.pid_wait_quick_chain(); //wait for drive to finish
+  chassis.pid_drive_set(15_in, DRIVE_SPEED); //drive backwards while holding goal
+    doinker.set(false); //put doinker up
+    intake.move(0); //stop spinning intake
+      chassis.pid_wait_quick_chain(); //wait for drive to finish
+    doinker.set(true); //put doinker down
+      pros::delay(200); //wait [unspecified time]
+  chassis.pid_turn_set(-160_deg, TURN_SPEED); //turn 160 degrees
+      chassis.pid_wait(); //wait for turn to finish
+  // chassis.pid_turn_set(-60_deg, TURN_SPEED); 
   // chassis.pid_wait();
-
-    chassis.pid_drive_set(15_in, DRIVE_SPEED);
-      doinker.set(false);
-  chassis.pid_wait();
-          MOGOClamp.set(true);
-
-chassis.pid_turn_set(20_deg, TURN_SPEED);
-     intake.move(127);
-  chassis.pid_wait();
-    chassis.pid_drive_set(7_in, DRIVE_SPEED);
-  chassis.pid_wait();
-          MOGOClamp.set(false);
-
-chassis.pid_turn_set(-32_deg, TURN_SPEED);
-     intake.move(127);
-  chassis.pid_wait();
-  
-  chassis.pid_drive_set(-22_in, DRIVE_SPEED);
-  chassis.pid_wait();
-
-         LBPID.target_set(605);
-         pros::delay(500);
-  chassis.pid_drive_set(5_in, DRIVE_SPEED);
-  chassis.pid_wait();
-
+  chassis.pid_drive_set(15_in, DRIVE_SPEED); //drive into goal
+    doinker.set(false); //put up doinker
+      chassis.pid_wait(); //wait for drive to finish
+    MOGOClamp.set(true); //clamp mogo
+  chassis.pid_turn_set(20_deg, TURN_SPEED); //turn 20 degrees
+    intake.move(127); //start spinning intake
+      chassis.pid_wait(); //wait for turn to finish
+  chassis.pid_drive_set(7_in, DRIVE_SPEED); //drive backwards
+      chassis.pid_wait(); //wait for drive to finish
+    MOGOClamp.set(false); //unclamp mogo
+  chassis.pid_turn_set(-32_deg, TURN_SPEED); //turn 32 degrees
+    intake.move(127); //start spinning intake [may be redundant]
+      chassis.pid_wait(); //wait for turn to finish
+    chassis.pid_drive_set(-22_in, DRIVE_SPEED); //drive forwards
+      chassis.pid_wait(); //wait for drive to finish
+    LBPID.target_set(605); //put ring on wall stake with lady Brown
+      pros::delay(500); //wait [unspecified time]
+  chassis.pid_drive_set(4.5_in, DRIVE_SPEED); //drive backwards
+      chassis.pid_wait();
 }
+
 void drive_example() {
   // The first parameter is target inches
   // The second parameter is max speed the robot will drive at
