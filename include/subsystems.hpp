@@ -28,12 +28,7 @@ inline pros::Rotation rot_LB (-16);
 
 inline pros::Motor intake(7);  // Make this number negative if you want to reverse the motor
 
-void set_intake(int input);
-void intake_opcontrol();
 
-inline void set_intake(int input) {
-  intake.move(input);
-}
 inline pros::Optical OpColor (14);
 
 inline ez::Piston doinker('D');

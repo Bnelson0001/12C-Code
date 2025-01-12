@@ -1,5 +1,4 @@
 #include "main.h"
-
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
 // https://ez-robotics.github.io/EZ-Template/
@@ -53,17 +52,71 @@ chassis.pid_swing_constants_backward_set(6.90, 0.0, 55.0);   // Swing constants
 ///
 // Drive Example
 ///
+
+
+
+void blue_goal(){
+  chassis.pid_drive_set(-25_in, DRIVE_SPEED, true); //drive to goal
+    doinker.set(true); //put doinker down
+    LBPID.target_set(200); //put up lady brown
+  chassis.pid_wait_quick_chain(); //wait for drive to finish
+  chassis.pid_drive_set(-13_in, DRIVE_SPEED, true);
+                   intake.move(127);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(15_in, DRIVE_SPEED);
+    doinker.set(false);
+       intake.move(0);
+  chassis.pid_wait_quick_chain();
+
+      doinker.set(true);
+      pros::delay(200);
+  chassis.pid_turn_set(-160_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+
+  // chassis.pid_turn_set(-60_deg, TURN_SPEED);
+          
+  // chassis.pid_wait();
+
+    chassis.pid_drive_set(15_in, DRIVE_SPEED);
+      doinker.set(false);
+  chassis.pid_wait();
+          MOGOClamp.set(true);
+
+chassis.pid_turn_set(20_deg, TURN_SPEED);
+     intake.move(127);
+  chassis.pid_wait();
+    chassis.pid_drive_set(7_in, DRIVE_SPEED);
+  chassis.pid_wait();
+          MOGOClamp.set(false);
+
+chassis.pid_turn_set(-32_deg, TURN_SPEED);
+     intake.move(127);
+  chassis.pid_wait();
+  
+  chassis.pid_drive_set(-22_in, DRIVE_SPEED);
+  chassis.pid_wait();
+
+         LBPID.target_set(605);
+         pros::delay(500);
+  chassis.pid_drive_set(5_in, DRIVE_SPEED);
+  chassis.pid_wait();
+
+}
 void drive_example() {
   // The first parameter is target inches
   // The second parameter is max speed the robot will drive at
   // The third parameter is a boolean (true or false) for enabling/disabling a slew at the start of drive motions
   // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
 
-  chassis.pid_drive_set(30_in, DRIVE_SPEED, true);
-  chassis.pid_wait();
+  // chassis.pid_drive_set(50_in, DRIVE_SPEED, true);
+  // doinker.button_toggle(true);
+  // chassis.pid_wait_quick_chain();
 
-  chassis.pid_drive_set(-30_in, DRIVE_SPEED);
-  chassis.pid_wait();
+  // doinker.button_toggle(false);
+
+  // chassis.pid_drive_set(-30_in, DRIVE_SPEED);
+  // chassis.pid_wait_quick_chain();
 
   // chassis.pid_drive_set(-12_in, DRIVE_SPEED);
   // chassis.pid_wait();

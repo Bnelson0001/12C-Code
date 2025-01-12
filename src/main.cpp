@@ -58,6 +58,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+    {"Blue Goal Rushn\n\n grab goal and score 2 rings on each ", blue_goal},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
@@ -324,7 +325,7 @@ if (master.get_digital(DIGITAL_LEFT)) {         //Mogo DC
   PIntake.set(false);
 }
 
-doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
+//doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
