@@ -94,6 +94,23 @@ void blue_goal(){
       chassis.pid_wait();
 }
 
+void blue_ring_safe(); {
+    LBPID.target_set(605);
+    intake.move(127);
+  chassis.pid_drive_set(25);
+  chassis.pid_turn_set(-90);
+  chassis.pid_drive_set(15);
+  chassis.pid_turn_set(90);
+    MOGOClamp.set(true);
+  chassis.pid_turn_set(110);
+  chassis.pid_drive_set(-12);
+  chassis.pid_turn_set(-180);
+  chassis.pid_drive_set(-12);
+  chassis.pid_drive_set(5)
+}
+
+void 
+
 void drive_example() {
   // The first parameter is target inches
   // The second parameter is max speed the robot will drive at
