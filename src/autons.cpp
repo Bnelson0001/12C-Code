@@ -56,51 +56,44 @@ chassis.pid_swing_constants_backward_set(6.90, 0.0, 55.0);   // Swing constants
 
 
 void blue_goal(){
-  chassis.pid_drive_set(-25_in, DRIVE_SPEED, true); //drive to goal
+  chassis.pid_drive_set(-25_in, DRIVE_SPEED, true); //drive to ring on way to
     doinker.set(true); //put doinker down
-    LBPID.target_set(200); //put up lady brown
-  chassis.pid_wait_quick_chain(); //wait for drive to finish
-  chassis.pid_drive_set(-13_in, DRIVE_SPEED, true);
-                   intake.move(127);
-  chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(15_in, DRIVE_SPEED);
-    doinker.set(false);
-       intake.move(0);
-  chassis.pid_wait_quick_chain();
+    LBPID.target_set(200); // lady brown half way
+  chassis.pid_wait_quick_chain(); //wait for drive to finish quick
+  chassis.pid_drive_set(-13_in, DRIVE_SPEED, true); //drive to goal
+                   intake.move(127);//intake on
+  chassis.pid_wait_quick_chain();//wait for drive to finish quick
+  chassis.pid_drive_set(15_in, DRIVE_SPEED); //back up with goal
+    doinker.set(false); //doinker up to grab
+       intake.move(0);//intake stop
+  chassis.pid_wait_quick_chain(); // wait for drive to finish quick
+      doinker.set(true);//doinker down/off
+      pros::delay(200);//wait
+  chassis.pid_turn_set(-160_deg, TURN_SPEED);//turn for clamp to face goal
+  chassis.pid_wait(); //wait for turn to finish
 
-      doinker.set(true);
-      pros::delay(200);
-  chassis.pid_turn_set(-160_deg, TURN_SPEED);
-  chassis.pid_wait();
+    chassis.pid_drive_set(15_in, DRIVE_SPEED);//back up to goal
+      doinker.set(false);//doinker up
+  chassis.pid_wait();//wait for drive to finish
+          MOGOClamp.set(true);//clamp goal
 
-
-  // chassis.pid_turn_set(-60_deg, TURN_SPEED);
-          
-  // chassis.pid_wait();
-
-    chassis.pid_drive_set(15_in, DRIVE_SPEED);
-      doinker.set(false);
-  chassis.pid_wait();
-          MOGOClamp.set(true);
-
-chassis.pid_turn_set(20_deg, TURN_SPEED);
-     intake.move(127);
-  chassis.pid_wait();
-    chassis.pid_drive_set(7_in, DRIVE_SPEED);
-  chassis.pid_wait();
-          MOGOClamp.set(false);
-
-chassis.pid_turn_set(-32_deg, TURN_SPEED);
-     intake.move(127);
-  chassis.pid_wait();
+chassis.pid_turn_set(20_deg, TURN_SPEED);//turn to put goal towards allaince + corner
+     intake.move(127);  //intake on goal
+  chassis.pid_wait();//wait for turn to finish
+    chassis.pid_drive_set(7_in, DRIVE_SPEED); //drive toput goal towards allaince + corner
+  chassis.pid_wait();//wait for drive to finish
+          MOGOClamp.set(false);// relase goal
+      pros::delay(250);//wait
+chassis.pid_turn_set(-32_deg, TURN_SPEED);//turn to wall stake 
+  chassis.pid_wait();//wait for turn to finish
   
-  chassis.pid_drive_set(-22_in, DRIVE_SPEED);
-  chassis.pid_wait();
-
-         LBPID.target_set(605);
-         pros::delay(500);
-  chassis.pid_drive_set(5_in, DRIVE_SPEED);
-  chassis.pid_wait();
+  chassis.pid_drive_set(-22_in, DRIVE_SPEED);//drive to wall stake
+  chassis.pid_wait();//wait for drive to finish
+         LBPID.target_set(605);//lady brown to top
+  pros::delay(500);//wait
+  chassis.pid_drive_set(5_in, DRIVE_SPEED);//back up from wall stake
+  chassis.pid_wait();// wait for drive to finish
+  
 
 }
 void drive_example() {
