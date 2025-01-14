@@ -32,7 +32,7 @@ ez::tracking_wheel horiz_tracker(-19, 2, 2.785);  // This tracking wheel is perp
 void initialize() {
   // Print our branding over your terminal :D
   ez::ez_template_print();
-
+   rot_LB.set_position(0);
   pros::delay(500);  // Stop the user from doing anything while legacy ports configure
 
   // Look at your horizontal tracking wheel and decide if it's in front of the midline of your robot or behind it
@@ -80,8 +80,6 @@ void initialize() {
   ez::as::initialize();
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 
-
-r_LB.tare_position();
   LBPID.exit_condition_set(80, 50, 300, 150, 500, 500);
 
 chassis.pid_tuner_full_enable(true);  
@@ -91,7 +89,7 @@ chassis.pid_tuner_full_enable(true);
 void lift_task() {
   pros::delay(2000);  // Set EZ-Template calibrate before this function starts running
   while (true) {
-    set_lift(LBPID.compute(r_LB.get_position()));
+    set_lift(LBPID.compute((r_LB.get_position())));
 
     pros::delay(ez::util::DELAY_TIME);
   }
@@ -103,11 +101,11 @@ void check_color() {
         // Example threshold values for red and blue
         if ( OpColor.get_hue() < 17) { // Red
             PColor.set(true);
-            pros::lcd::print(0, "TRUE");
+          //  pros::lcd::print(0, "TRUE");
     
         } else { // Blue
             PColor.set(false);
-           pros::lcd::print(0, "FALSE");
+          // pros::lcd::print(0, "FALSE");
         }
         // Adding a delay to avoid excessive CPU usage
         pros::delay(20);
@@ -276,12 +274,20 @@ void ez_template_extras() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+void update_lcd() {
+  while (true) {
+    pros::lcd::print(0, "Angle: %f/ ", rot_LB.get_angle());
+    pros::delay(100);  // Update every 20 milliseconds
+  }
+} 
+
+
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 chassis.opcontrol_joystick_practicemode_toggle(false);
 pros::Task color_task(check_color);
-
+pros::Task LCD_Task(update_lcd);  
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
@@ -290,8 +296,6 @@ pros::Task color_task(check_color);
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
-
-
  if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
       LBPID.target_set(740);
     }
@@ -299,9 +303,10 @@ pros::Task color_task(check_color);
       LBPID.target_set(50);
     }
     else if (master.get_digital(DIGITAL_Y)) {
-      LBPID.target_set(135);
+      LBPID.target_set(145);
     }
-
+                printf("Angle: %ld \n", rot_LB.get_angle());
+                pros::delay(20);
 
 
   if (master.get_digital(DIGITAL_L1)) {  //Intake DC
@@ -323,9 +328,10 @@ else if (master.get_digital(DIGITAL_R1)) {
 }   
 if (master.get_digital(DIGITAL_LEFT)) {         //Mogo DC
   PIntake.set(false);
+   rot_LB.set_position(0);
 }
 
-//doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
+doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
