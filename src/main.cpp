@@ -58,7 +58,8 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-    {"Blue Goal Rushn\n\n grab goal and score 2 rings on each ", blue_goal},
+        {"QUALS!!!! Blue Ring Side and Red Goal\n grab goal and score 2 rings on each ", safe_ring},
+    {"ELIMS! Blue Goal Rush\n\n grab goal and score 2 rings on each ", blue_goal},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
@@ -111,7 +112,7 @@ void check_color() {
         pros::delay(20);
     }
 }
-pros::Task Lift_Task(lift_task);
+
 
 
 /**
@@ -148,6 +149,7 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
+  pros::Task Lift_Task(lift_task);
   pros::Task color_task(check_color);
   chassis.pid_targets_reset();                // Resets PID targets to 0
   chassis.drive_imu_reset();                  // Reset gyro position to 0
@@ -284,6 +286,7 @@ void update_lcd() {
 
 void opcontrol() {
   // This is preference to what you like to drive on
+  pros::Task Lift_Task(lift_task);
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 chassis.opcontrol_joystick_practicemode_toggle(false);
 pros::Task color_task(check_color);
