@@ -59,6 +59,7 @@ void initialize() {
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
         {"QUALS!!!! Blue Ring Side and Red Goal\n grab goal and score 2 rings on each ", safe_ring},
+      {"QUALS!!!! RED Ring Side and BLUE Goal\n grab goal and score 2 rings on each ", safe_ring},
     {"ELIMS! Blue Goal Rush\n\n grab goal and score 2 rings on each ", blue_goal},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
@@ -121,7 +122,7 @@ void check_color() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
-  // . . .
+  pros::Task Lift_Task(lift_task);
 }
 
 /**
@@ -134,7 +135,7 @@ void disabled() {
  * starts.
  */
 void competition_initialize() {
-  // . . .
+  pros::Task Lift_Task(lift_task);
 }
 
 /**

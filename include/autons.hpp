@@ -18,3 +18,4 @@ void odom_boomerang_injected_pure_pursuit_example();
 void measure_offsets();
 void blue_goal();
 void safe_ring();
+void mirror_safe_ring();

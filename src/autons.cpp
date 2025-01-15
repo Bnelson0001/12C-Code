@@ -54,15 +54,74 @@ chassis.pid_swing_constants_backward_set(6.90, 0.0, 55.0);   // Swing constants
 ///
 
 void safe_ring(){
-LBPID.target_set(720); //put up lady brown
-        pros::delay(500);
-            LBPID.target_set(0);
-  // chassis.pid_drive_set(-30_in, DRIVE_SPEED, true); //drive to ring on way to
-  //   LBPID.target_set(0);
-  // chassis.pid_wait_quick_chain();
-
+    LBPID.target_set(690); //put up lady brown
+      pros::delay(700);
+    LBPID.target_set(0);
+  chassis.pid_drive_set(4.2_in, DRIVE_SPEED, true);
+     chassis.pid_wait_quick_chain(); //wait for drive to finish
+  chassis.pid_turn_set(-65_deg, DRIVE_SPEED);
+      chassis.pid_wait(); //wait for drive to finish
+  chassis.pid_drive_set(30_in, DRIVE_SPEED, true); //drive to goal
+  chassis.pid_wait_until(16_in); //wait until 25 inches, then slow down
+  chassis.pid_speed_max_set(30);
+     chassis.pid_wait(); //wait for drive to finish
+    MOGOClamp.set(true);
+  chassis.pid_turn_set(-170_deg, DRIVE_SPEED);
+      chassis.pid_wait(); //wait for turn to finish
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED, true); //drive to ring stack
+    intake.move(127); //start spinning intake
+      chassis.pid_wait(); //wait for turn to finish
+      pros::delay(600); //wait so ring doesn't fling off
+  chassis.pid_turn_set(-3.5_deg, DRIVE_SPEED); //turn to face other ring stack
+      chassis.pid_wait_quick_chain(); //wait for turn to finish
+  chassis.pid_drive_set(-54_in, DRIVE_SPEED, true);
+    intake.move(0); //stop intake
+    PIntake.set(true); //raise intake
+      chassis.pid_wait(); //wait for drive to finish
+    PIntake.set(false); //lower intake
+  chassis.pid_drive_set(-16_in, DRIVE_SPEED, true);
+    intake.move(127); //stop intake
+      chassis.pid_wait(); //wait for drive to finish
+  chassis.pid_turn_set(140_deg, DRIVE_SPEED); //turn to face ladder
+      chassis.pid_wait(); //wait for turn to finish
+  chassis.pid_drive_set(-19_in, DRIVE_SPEED, true); //drive to ladder
+      chassis.pid_wait(); //wait for drive to finish
 }
 
+void mirror_safe_ring(){
+    LBPID.target_set(690); //put up lady brown
+      pros::delay(700);
+    LBPID.target_set(0);
+  chassis.pid_drive_set(4.2_in, DRIVE_SPEED, true);
+     chassis.pid_wait_quick_chain(); //wait for drive to finish
+  chassis.pid_turn_set(-65_deg, DRIVE_SPEED);
+      chassis.pid_wait(); //wait for drive to finish
+  chassis.pid_drive_set(30_in, DRIVE_SPEED, true); //drive to goal
+  chassis.pid_wait_until(16_in); //wait until 25 inches, then slow down
+  chassis.pid_speed_max_set(30);
+     chassis.pid_wait(); //wait for drive to finish
+    MOGOClamp.set(true);
+  chassis.pid_turn_set(-170_deg, DRIVE_SPEED);
+      chassis.pid_wait(); //wait for turn to finish
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED, true); //drive to ring stack
+    intake.move(127); //start spinning intake
+      chassis.pid_wait(); //wait for turn to finish
+      pros::delay(600); //wait so ring doesn't fling off
+  chassis.pid_turn_set(-3.5_deg, DRIVE_SPEED); //turn to face other ring stack
+      chassis.pid_wait_quick_chain(); //wait for turn to finish
+  chassis.pid_drive_set(-54_in, DRIVE_SPEED, true);
+    intake.move(0); //stop intake
+    PIntake.set(true); //raise intake
+      chassis.pid_wait(); //wait for drive to finish
+    PIntake.set(false); //lower intake
+  chassis.pid_drive_set(-16_in, DRIVE_SPEED, true);
+    intake.move(127); //stop intake
+      chassis.pid_wait(); //wait for drive to finish
+  chassis.pid_turn_set(140_deg, DRIVE_SPEED); //turn to face ladder
+      chassis.pid_wait(); //wait for turn to finish
+  chassis.pid_drive_set(-19_in, DRIVE_SPEED, true); //drive to ladder
+      chassis.pid_wait(); //wait for drive to finish
+}
 
 void blue_goal(){
    LBPID.target_set(500); //put up lady brown
