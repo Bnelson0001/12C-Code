@@ -58,8 +58,9 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-        {"QUALS!!!! Blue Ring Side and Red Goal\n grab goal and score 2 rings on each ", safe_ring},
-      {"QUALS!!!! RED Ring Side and BLUE Goal\n grab goal and score 2 rings on each ", safe_ring},
+       {"SKILLS", skills},
+        {"QUALS!!!! BLUE Ring Side and RED Goal\n grab goal and score 2 rings on each ", safe_ring},
+      {"QUALS!!!! RED Ring Side and BLUE Goal\n grab goal and score 2 rings on each ", mirror_safe_ring},
     {"ELIMS! Blue Goal Rush\n\n grab goal and score 2 rings on each ", blue_goal},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
@@ -301,7 +302,7 @@ pros::Task LCD_Task(update_lcd);
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
  if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
-      LBPID.target_set(740);
+      LBPID.target_set(695);
     }
     else if (master.get_digital(DIGITAL_A)) {
       LBPID.target_set(50);

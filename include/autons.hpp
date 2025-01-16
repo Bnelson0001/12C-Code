@@ -19,3 +19,4 @@ void measure_offsets();
 void blue_goal();
 void safe_ring();
 void mirror_safe_ring();
+void skills();
