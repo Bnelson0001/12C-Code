@@ -29,11 +29,17 @@ ez::tracking_wheel horiz_tracker(-19, 2, 2.785);  // This tracking wheel is perp
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+void toggle_color_mode();
+
+
 void initialize() {
   // Print our branding over your terminal :D
   ez::ez_template_print();
    rot_LB.set_position(0);
   pros::delay(500);  // Stop the user from doing anything while legacy ports configure
+
+  pros::lcd::initialize();
+  pros::lcd::register_btn1_cb(toggle_color_mode);
 
   // Look at your horizontal tracking wheel and decide if it's in front of the midline of your robot or behind it
   //  - change `back` to `front` if the tracking wheel is in front of the midline
@@ -58,6 +64,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+     {"red ring rush", rush_ring_red},
        {"SKILLS", skills},
         {"QUALS!!!! BLUE Ring Side and RED Goal\n grab goal and score 2 rings on each ", safe_ring},
       {"QUALS!!!! RED Ring Side and BLUE Goal\n grab goal and score 2 rings on each ", mirror_safe_ring},
@@ -89,6 +96,25 @@ chassis.pid_tuner_full_enable(true);
 
 }
 
+enum ColorMode {    // Global variable to keep track of the current mode
+  BLUE_MODE,
+  RED_MODE,
+  NO_SORT_MODE
+}; 
+
+ColorMode current_mode = RED_MODE;  
+
+void toggle_color_mode() {
+  if (current_mode == BLUE_MODE) {
+    current_mode = RED_MODE;
+  } else if (current_mode == RED_MODE) {
+    current_mode = NO_SORT_MODE;
+  } else {
+    current_mode = BLUE_MODE;
+  }
+  pros::lcd::print(4, "Mode: %s", current_mode == BLUE_MODE ? "Blue" : (current_mode == RED_MODE ? "Red" : "No Sort"));
+}
+
 void lift_task() {
   pros::delay(2000);  // Set EZ-Template calibrate before this function starts running
   while (true) {
@@ -99,20 +125,35 @@ void lift_task() {
 }
         int color_value = OpColor.get_hue();
 void check_color() {
-    while (true) {
+  while (true) {
 
-        // Example threshold values for red and blue
-        if ( OpColor.get_hue() < 17) { // Red
-            PColor.set(true);
-          //  pros::lcd::print(0, "TRUE");
-    
-        } else { // Blue
-            PColor.set(false);
-          // pros::lcd::print(0, "FALSE");
-        }
-        // Adding a delay to avoid excessive CPU usage
-        pros::delay(20);
+    // Check if the hue is less than the red threshold or greater than the blue threshold
+    if (current_mode == BLUE_MODE) {    // Blue CODE    
+      if ((OpColor.get_hue()) < 17) { // Red
+        PColor.set(true);
+        pros::lcd::print(0, "Red Detected");
+      } else {
+        PColor.set(false);
+        pros::lcd::print(0, "No Color Detected");
+      }
+    } else if (current_mode == RED_MODE) {    // RED CODE
+      if (((OpColor.get_hue()) > 185) && ((OpColor.get_hue()) < 350)){ // Blue
+        PColor.set(true);
+        pros::lcd::print(0, "Blue Detected");
+      } else {
+        PColor.set(false);
+        pros::lcd::print(0, "No Color Detected");
+      }
+    } else {
+      // No sort mode
+      PColor.set(false);
+      pros::lcd::print(0, "No Sort Mode");
     }
+
+
+    // Adding a delay to avoid excessive CPU usage
+    pros::delay(20);
+  }
 }
 
 
@@ -278,12 +319,12 @@ void ez_template_extras() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-void update_lcd() {
-  while (true) {
-    pros::lcd::print(0, "Angle: %f/ ", rot_LB.get_angle());
-    pros::delay(100);  // Update every 20 milliseconds
-  }
-} 
+// void update_lcd() {
+//   while (true) {
+//   //  pros::lcd::print(0, "Angle: %f/ ", rot_LB.get_angle());
+//     pros::delay(100);  // Update every 20 milliseconds
+//   }
+// } 
 
 
 void opcontrol() {
@@ -292,23 +333,23 @@ void opcontrol() {
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 chassis.opcontrol_joystick_practicemode_toggle(false);
 pros::Task color_task(check_color);
-pros::Task LCD_Task(update_lcd);  
+//pros::Task LCD_Task(update_lcd);  
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
-   chassis.opcontrol_tank();  // Tank control
-     //chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
+   //chassis.opcontrol_tank();  // Tank control
+     chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
  if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
-      LBPID.target_set(695);
+      LBPID.target_set(640);
     }
     else if (master.get_digital(DIGITAL_A)) {
       LBPID.target_set(50);
     }
     else if (master.get_digital(DIGITAL_Y)) {
-      LBPID.target_set(145);
+      LBPID.target_set(140);
     }
                 printf("Angle: %ld \n", rot_LB.get_angle());
                 pros::delay(20);
@@ -333,7 +374,10 @@ else if (master.get_digital(DIGITAL_R1)) {
 }   
 if (master.get_digital(DIGITAL_LEFT)) {         //Mogo DC
   PIntake.set(false);
-   rot_LB.set_position(0);
+}
+
+if ((master.get_digital(DIGITAL_LEFT)) && (master.get_digital(DIGITAL_RIGHT)) && (master.get_digital(DIGITAL_A))){         //Mogo DC
+current_mode = NO_SORT_MODE;
 }
 
 doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC

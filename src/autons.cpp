@@ -55,16 +55,17 @@ chassis.pid_swing_constants_backward_set(6.90, 0.0, 55.0);   // Swing constants
 void skills(){
  intake.move(127); //start spinning intake
  pros::delay (550);
- chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
-chassis.pid_wait_quick_chain(); //wait for drive to finish
+ chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
+chassis.pid_wait(); //wait for drive to finish
 chassis.pid_turn_set(-90_deg, DRIVE_SPEED);
       chassis.pid_wait(); //wait for turn to finish
-       chassis.pid_drive_set(16.5_in, DRIVE_SPEED, true);
-         chassis.pid_wait_until(13_in); //wait until 25 inches, then slow down
+       chassis.pid_drive_set(20, DRIVE_SPEED, true);
+         chassis.pid_wait_until(14_in); //wait until 14 inches, then slow down
   chassis.pid_speed_max_set(30);
+   chassis.pid_wait_until(17_in);
+         MOGOClamp.set(true);
 chassis.pid_wait(); //wait for drive to finish
-    MOGOClamp.set(true);
- chassis.pid_drive_set(3_in, DRIVE_SPEED, true);
+ pros::delay (250);
  chassis.pid_wait_quick_chain(); //wait for drive to finish
  chassis.pid_turn_set(0_deg, DRIVE_SPEED);
  chassis.pid_wait_quick_chain(); //wait for drive to finish
@@ -77,20 +78,14 @@ chassis.pid_wait(); //wait for drive to finish
      chassis.pid_turn_set(90_deg, DRIVE_SPEED);
    chassis.pid_wait_quick_chain(); //wait for drive to finish
 
-
-      LBPID.target_set(145);
     chassis.pid_drive_set(-9.5_in, DRIVE_SPEED, true);
        chassis.pid_wait_quick_chain(); //wait for drive to finish
            chassis.pid_drive_set(2_in, DRIVE_SPEED, true);
        chassis.pid_wait(); //wait for drive to finish
-        pros::delay (1250); //start spinning intake
-         intake.move(-20); //start spinning intake
-      LBPID.target_set(720);
-        pros::delay (800);
+                    chassis.pid_drive_set(-3_in, DRIVE_SPEED, true);
        intake.move(127); //start spinning intake
-       chassis.pid_drive_set(1.5_in, DRIVE_SPEED, true);
+       chassis.pid_drive_set(3.5_in, DRIVE_SPEED, true);
        chassis.pid_wait_quick_chain(); //wait for drive to finish
-                        LBPID.target_set(0);
                  pros::delay (250);               
       chassis.pid_turn_set(181_deg, DRIVE_SPEED);
    chassis.pid_wait_quick_chain(); //wait for drive to finish
@@ -109,19 +104,148 @@ chassis.pid_wait(); //wait for drive to finish
          chassis.pid_drive_set(5_in, DRIVE_SPEED, true);
                   chassis.pid_wait_quick_chain();
           chassis.pid_turn_set(-45_deg, DRIVE_SPEED);
-                            chassis.pid_wait();
-           chassis.pid_drive_set(9_in, DRIVE_SPEED, true);
+                            chassis.pid_wait(); 
+                              intake.move(127); //start spinning intake
+           chassis.pid_drive_set(14_in, DRIVE_SPEED, true);
                   chassis.pid_wait();
+                   pros::delay (250); //start spinning intake
         MOGOClamp.set(false);
-           intake.move(-50); //start spinning intake
-           chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
+                      intake.move(-50); 
+           chassis.pid_drive_set(-8_in, DRIVE_SPEED, true);
                              chassis.pid_wait_quick_chain();
-                      chassis.pid_turn_set(90_deg, DRIVE_SPEED);
+                      chassis.pid_turn_set(-90_deg, DRIVE_SPEED);
+                                intake.move(50); 
                             chassis.pid_wait_quick_chain();
-                            
+                                       chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+                             chassis.pid_wait_quick_chain();
+                      chassis.pid_turn_set(93_deg, DRIVE_SPEED);
+
+                            chassis.pid_wait_quick_chain();
+                chassis.pid_drive_set(25.1_in, DRIVE_SPEED, true);
+                  chassis.pid_wait_until(22_in); //wait until 25 inches, then slow down
+  chassis.pid_speed_max_set(30);
+                              chassis.pid_wait();
+           MOGOClamp.set(true);
+           pros::delay(250);
+           chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
+                                           intake.move(127); 
+                 chassis.pid_wait();
+                        chassis.pid_turn_set(0_deg, DRIVE_SPEED);
+
+                            chassis.pid_wait_quick_chain();
+                                       chassis.pid_drive_set(-22_in, DRIVE_SPEED, true);
+                                           intake.move(127); 
+                 chassis.pid_wait();
+                   chassis.pid_turn_set(-90_deg, DRIVE_SPEED);
+                            chassis.pid_wait_quick_chain();
+                            chassis.pid_drive_set(-23_in, DRIVE_SPEED, true);
+                                           intake.move(127); 
+                 chassis.pid_wait();
+                  chassis.pid_turn_set(180_deg, DRIVE_SPEED);
+                            chassis.pid_wait_quick_chain();
+                         chassis.pid_drive_set(-35_in, 90, true);
+                 chassis.pid_wait();
+                                          chassis.pid_drive_set(3_in, 90, true);
+                 chassis.pid_wait();
+                     chassis.pid_turn_set(-70_deg, DRIVE_SPEED);
+                            chassis.pid_wait_quick_chain();
+       chassis.pid_drive_set(-8_in, DRIVE_SPEED, true);
+        chassis.pid_wait_quick_chain();
+         chassis.pid_drive_set(5_in, DRIVE_SPEED, true);
+                  chassis.pid_wait_quick_chain();
+           chassis.pid_turn_set(60_deg, DRIVE_SPEED);
+                 
+                      chassis.pid_wait();          
+           chassis.pid_drive_set(7_in, DRIVE_SPEED, true);
+                  chassis.pid_wait();
+                             pros::delay(250);
+                   MOGOClamp.set(false);
+                   intake.move(-20); //start spinning intake
+                  
+                          chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
+                  chassis.pid_wait();
+           chassis.pid_turn_set(-3.5_deg, DRIVE_SPEED);
+               intake.move(55); //start spinning intake
+                    chassis.pid_wait();
+                chassis.pid_drive_set(-51_in, DRIVE_SPEED, true);
+                  chassis.pid_wait();
+                             chassis.pid_turn_set(45_deg, DRIVE_SPEED);
+                    chassis.pid_wait();
+                  chassis.pid_drive_set(-36_in, DRIVE_SPEED, true);
+                  chassis.pid_wait();
+                                               chassis.pid_turn_set(210_deg, DRIVE_SPEED);
+                    chassis.pid_wait();
+                  chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
+                   intake.move(10);
+                  chassis.pid_wait();
+                       chassis.pid_turn_set(-90_deg, DRIVE_SPEED);
+                         chassis.pid_wait();
+                        chassis.pid_drive_set(50_in, DRIVE_SPEED, true);
+                           chassis.pid_wait_until(30_in);
+         MOGOClamp.set(true);
+                  chassis.pid_wait();
+                 chassis.pid_turn_set(-115_deg, DRIVE_SPEED);
+                  intake.move(127); 
+                         chassis.pid_wait();
+                   chassis.pid_drive_set(15_in, DRIVE_SPEED, true);
+                                         chassis.pid_wait();
+                     chassis.pid_turn_set(-135_deg, DRIVE_SPEED);
+                             intake.move(-20);
+                         chassis.pid_wait();
+                                MOGOClamp.set(false);
+                           chassis.pid_drive_set(-3_in, DRIVE_SPEED, true);
+                                 chassis.pid_wait();
+                                                    MOGOClamp.set(true);
+                                                    
+                         chassis.pid_drive_set(21_in, DRIVE_SPEED, true);
+                                         chassis.pid_wait();
+                            MOGOClamp.set(false);
+                                                  chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
+                                         chassis.pid_wait();
+             chassis.pid_turn_set(-90_deg, DRIVE_SPEED);
+                         chassis.pid_wait();
+                          chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+                                chassis.pid_wait();
+                                       chassis.pid_turn_set(-65_deg, DRIVE_SPEED);
+                         chassis.pid_wait();
+                          chassis.pid_drive_set(-85_in, DRIVE_SPEED, true);
+                  
 }
 
+void rush_ring_red(){
+    LBPID.target_set(690); //put up lady brown
+      pros::delay(700);
+    LBPID.target_set(0);
+  chassis.pid_drive_set(4.1_in, DRIVE_SPEED, true);
+     chassis.pid_wait(); //wait for drive to finish
+  chassis.pid_turn_set(65_deg, DRIVE_SPEED);
+      chassis.pid_wait(); //wait for drive to finish
+  chassis.pid_drive_set(30_in, DRIVE_SPEED, true); //drive to goal
+  chassis.pid_wait_until(16_in); //wait until 25 inches, then slow down
+  chassis.pid_speed_max_set(30);
+     chassis.pid_wait(); //wait for drive to finish
+    MOGOClamp.set(true);
+  chassis.pid_turn_set(170_deg, DRIVE_SPEED);
+      chassis.pid_wait(); //wait for turn to finish
+  chassis.pid_drive_set(-27_in, DRIVE_SPEED, true); //drive to ring stack //change made here
+    intake.move(127); //start spinning intake
+      chassis.pid_wait(); //wait for turn to finish
+        chassis.pid_turn_set(251_deg, DRIVE_SPEED);
+         chassis.pid_wait(); //wait for turn to finish
+  chassis.pid_drive_set(-14_in, DRIVE_SPEED, true); //drive to ring stack //change made here
+     chassis.pid_wait(); //wait for turn to finish
+       chassis.pid_drive_set(5_in, DRIVE_SPEED, true); //drive to ring stack //change made here
+     chassis.pid_wait(); //wait for turn to finish
+             chassis.pid_turn_set(280_deg, DRIVE_SPEED);
+         chassis.pid_wait(); //wait for turn to finish
+      chassis.pid_drive_set(-7_in, DRIVE_SPEED, true); //drive to ring stack //change made here
+     chassis.pid_wait(); //wait for turn to finish
+           chassis.pid_turn_set(255_deg, DRIVE_SPEED);
+         chassis.pid_wait(); //wait for turn to finish
+           chassis.pid_drive_set(12_in, DRIVE_SPEED, true); //drive to ring stack //change made here
+     chassis.pid_wait(); //wait for turn to finish
 
+}
 
 void safe_ring(){
     LBPID.target_set(690); //put up lady brown
@@ -141,7 +265,8 @@ void safe_ring(){
   chassis.pid_drive_set(-26_in, DRIVE_SPEED, true); //drive to ring stack //change made here
     intake.move(127); //start spinning intake
       chassis.pid_wait(); //wait for turn to finish
-      pros::delay(600); //wait so ring doesn't fling off
+ 
+
   chassis.pid_turn_set(-3.5_deg, DRIVE_SPEED); //turn to face other ring stack
       chassis.pid_wait_quick_chain(); //wait for turn to finish
   chassis.pid_drive_set(-46_in, DRIVE_SPEED, true); //change made here
@@ -178,7 +303,8 @@ void mirror_safe_ring(){
   chassis.pid_drive_set(-26_in, DRIVE_SPEED, true); //drive to ring stack //change made here
     intake.move(127); //start spinning intake
       chassis.pid_wait(); //wait for turn to finish
-      pros::delay(600); //wait so ring doesn't fling off
+
+
   chassis.pid_turn_set(3.5_deg, DRIVE_SPEED); //turn to face other ring stack
       chassis.pid_wait_quick_chain(); //wait for turn to finish
   chassis.pid_drive_set(-46_in, DRIVE_SPEED, true); //change made here
@@ -198,68 +324,87 @@ void mirror_safe_ring(){
 }
 
 void blue_goal(){
-   LBPID.target_set(500); //put up lady brown
+
   chassis.pid_drive_set(-30_in, DRIVE_SPEED, true); //drive to ring on way to
-    LBPID.target_set(500);
+
     doinker.set(true); //put doinker down
   chassis.pid_wait_quick_chain(); //wait for drive to finish
-  LBPID.target_set(500);
+
   chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
-                   intake.move(127);
-                   LBPID.target_set(300);
-  chassis.pid_wait();
-LBPID.target_set(400);
-  chassis.pid_drive_set(22_in, DRIVE_SPEED);
-    doinker.set(false);
-       intake.move(0);
-  chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(-2_in, DRIVE_SPEED);
-    doinker.set(true);
-       intake.move(0);
-  chassis.pid_wait();
-LBPID.target_set(400);
+                   intake.move(50);
 
-  chassis.pid_turn_set(-14_deg, TURN_SPEED);
-  chassis.pid_wait_quick_chain();
-
-      doinker.set(false);
-  chassis.pid_turn_set(30_deg, TURN_SPEED);
-LBPID.target_set(400);
-  chassis.pid_wait_quick_chain();
-
-  chassis.pid_turn_set(-14_deg, TURN_SPEED);
   chassis.pid_wait();
+  doinker.set(false); //put doinker down
+
+  chassis.pid_drive_set(15_in, DRIVE_SPEED, true);
+                   intake.move(50);
+
+  chassis.pid_wait();
+    doinker.set(true); //put doinker down
+    chassis.pid_turn_set(-90_deg, DRIVE_SPEED);
+    
+      chassis.pid_wait_quick_chain(); //wait for turn to finish
+      chassis.pid_drive_set(30_in, DRIVE_SPEED, true); //drive to ring on way to
+
+  chassis.pid_wait(); //wait for drive to finish
+ MOGOClamp.set(true);
+  intake.move(127);
+  doinker.set(false); //put doinker down
+        chassis.pid_drive_set(-30_in, 10, true); //drive to ring on way to
+
+  chassis.pid_wait(); //wait for drive to finish
   
-  chassis.pid_drive_set(-31.75_in, DRIVE_SPEED);
-  intake.move(30);
-  chassis.pid_wait();
 
-         LBPID.target_set(690);
-         pros::delay(500);
-  chassis.pid_drive_set(5_in, DRIVE_SPEED);
-           
-  chassis.pid_wait_quick_chain();
+  // chassis.pid_drive_set(-30_in, DRIVE_SPEED, true); //drive to ring on way to
 
-    chassis.pid_drive_set(5_in, DRIVE_SPEED); 
-  LBPID.target_set(400);   
-  chassis.pid_wait();
+  //   doinker.set(true); //put doinker down
+  // chassis.pid_wait_quick_chain(); //wait for drive to finish
 
-    chassis.pid_turn_set(-50_deg, TURN_SPEED);
-      
-  chassis.pid_wait();
+  // chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
+  //                  intake.move(127);
 
-    chassis.pid_drive_set(33_in, DRIVE_SPEED);
-  chassis.pid_wait();
+  // chassis.pid_wait();
 
-    chassis.pid_drive_set(3_in, 90);
-  chassis.pid_wait();
-MOGOClamp.set(true);
-    chassis.pid_turn_set(30_deg, TURN_SPEED);
-        intake.move(127);
-  chassis.pid_wait();
-           chassis.pid_drive_set(-18_in, 78);
-                   intake.move(127);
-  chassis.pid_wait();
+  // chassis.pid_drive_set(22_in, DRIVE_SPEED);
+  //   doinker.set(false);
+  //      intake.move(0);
+  // chassis.pid_wait_quick_chain();
+  // chassis.pid_drive_set(-2_in, DRIVE_SPEED);
+  //   doinker.set(true);
+  //      intake.move(0);
+  // chassis.pid_wait();
+
+
+
+  //     doinker.set(false);
+  // chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  // chassis.pid_wait_quick_chain();
+
+
+  //   chassis.pid_drive_set(30_in, DRIVE_SPEED);
+   
+  // chassis.pid_wait();
+  // MOGOClamp.set(true);
+  //     chassis.pid_drive_set(5_in, DRIVE_SPEED);
+   
+  // chassis.pid_wait();
+  //          intake.move(127);
+  //   chassis.pid_drive_set(-10_in, 5);
+   
+  // chassis.pid_wait();
+
+
+
+
+
+
+
+//            end
+
+
+
+
+
 
 
 //     chassis.pid_drive_set(25_in, DRIVE_SPEED);

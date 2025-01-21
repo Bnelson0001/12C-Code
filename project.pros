@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Blue12cEZ",
+    "project_name": "12codeALL",
     "target": "v5",
     "templates": {
       "EZ-Template": {
@@ -424,9 +424,9 @@
       }
     },
     "upload_options": {
-      "description": "Blue",
+      "description": "",
       "slot": 1,
-      "icon": "alien"
+      "icon": "power"
     },
     "use_early_access": false
   }
