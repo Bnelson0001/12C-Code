@@ -175,7 +175,7 @@ chassis.pid_wait(); //wait for drive to finish
                   chassis.pid_wait();
                                                chassis.pid_turn_set(210_deg, DRIVE_SPEED);
                     chassis.pid_wait();
-                  chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
+                  chassis.pid_drive_set(15_in, DRIVE_SPEED, true);
                    intake.move(10);
                   chassis.pid_wait();
                        chassis.pid_turn_set(-90_deg, DRIVE_SPEED);
@@ -212,57 +212,57 @@ chassis.pid_wait(); //wait for drive to finish
                   
 }
 
-void rush_ring_blue(){
+void rush_ring_blue(){        //COMPLETE
     LBPID.target_set(690); //put up lady brown
       pros::delay(700);
     LBPID.target_set(0);
   chassis.pid_drive_set(4.1_in, DRIVE_SPEED, true);
      chassis.pid_wait_quick_chain(); //wait for drive to finish
-  chassis.pid_turn_set(65_deg, DRIVE_SPEED);
+  chassis.pid_turn_set(-65_deg, DRIVE_SPEED);
       chassis.pid_wait(); //wait for drive to finish
   chassis.pid_drive_set(30_in, DRIVE_SPEED, true); //drive to goal
   chassis.pid_wait_until(16_in); //wait until 25 inches, then slow down
   chassis.pid_speed_max_set(35);
      chassis.pid_wait(); //wait for drive to finish
     MOGOClamp.set(true);
-  chassis.pid_turn_set(170_deg, DRIVE_SPEED);
+  chassis.pid_turn_set(-170_deg, DRIVE_SPEED);
       chassis.pid_wait(); //wait for turn to finish
   chassis.pid_drive_set(-29_in, DRIVE_SPEED, true); //drive to ring stack //change made here
     intake.move(127); //start spinning intake
       chassis.pid_wait(); //wait for turn to finish
-        chassis.pid_turn_set(251_deg, DRIVE_SPEED);
+        chassis.pid_turn_set(-244_deg, DRIVE_SPEED);
          chassis.pid_wait(); //wait for turn to finish
-  chassis.pid_drive_set(-14_in, DRIVE_SPEED, true); //drive to ring stack //change made here
+  chassis.pid_drive_set(-12_in, DRIVE_SPEED, true); //drive to ring stack //change made here
      chassis.pid_wait(); //wait for turn to finish
-       chassis.pid_drive_set(5_in, DRIVE_SPEED, true); //drive to ring stack //change made here
+       chassis.pid_drive_set(10_in, DRIVE_SPEED, true); //drive to ring stack //change made here
      chassis.pid_wait(); //wait for turn to finish
-             chassis.pid_turn_set(300_deg, DRIVE_SPEED);
+             chassis.pid_turn_set(-300_deg, DRIVE_SPEED);
          chassis.pid_wait(); //wait for turn to finish
-      chassis.pid_drive_set(-9_in, DRIVE_SPEED, true); //drive to ring stack //change made here
-     chassis.pid_wait(); //wait for turn to finish
-           chassis.pid_turn_set(255_deg, DRIVE_SPEED);
+      chassis.pid_drive_set(-6_in, DRIVE_SPEED, true); //drive to ring stack //change made here
+           chassis.pid_wait_quick_chain();  //wait for turn to finish
+           chassis.pid_turn_set(-255_deg, DRIVE_SPEED);
          chassis.pid_wait(); //wait for turn to finish
-           chassis.pid_drive_set(-2.75_in, DRIVE_SPEED, true); //drive to ring stack //change made here
+           chassis.pid_drive_set(-7_in, DRIVE_SPEED, true); //drive to ring stack //change made here
      chassis.pid_wait(); //wait for turn to finish
            chassis.pid_drive_set(15_in, DRIVE_SPEED, true); //drive to ring stack //change made here
      chassis.pid_wait(); //wait for turn to finish
-  chassis.pid_turn_set(5_deg, DRIVE_SPEED); //turn to face other ring stack
+  chassis.pid_turn_set(-5_deg, DRIVE_SPEED); //turn to face other ring stack
       chassis.pid_wait_quick_chain(); //wait for turn to finish
-  chassis.pid_drive_set(-47_in, DRIVE_SPEED, true); //change made here 
+  chassis.pid_drive_set(-45_in, DRIVE_SPEED, true); //change made here 
     PIntake.set(true); //raise intake
       chassis.pid_wait(); //wait for drive to finish
      pros::delay(100);
     PIntake.set(false); //raise intake
     chassis.pid_drive_set(-5_in, DRIVE_SPEED, true); //change made here 
       chassis.pid_wait(); //wait for drive to finish
-        chassis.pid_turn_set(-120_deg, DRIVE_SPEED);
+        chassis.pid_turn_set(125_deg, DRIVE_SPEED);
       chassis.pid_wait_quick_chain(); //wait for turn to finish
-  chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
-  
+  chassis.pid_drive_set(-14.8_in, DRIVE_SPEED, true);
+    chassis.pid_wait_until(-5_in); //wait until 25 inches, then slow down
       chassis.pid_wait(); //wait for drive to finish
 }
 
-void rush_ring_red(){
+void rush_ring_red(){             //COMPLETE
     LBPID.target_set(690); //put up lady brown
       pros::delay(700);
     LBPID.target_set(0);
@@ -296,9 +296,9 @@ void rush_ring_red(){
      chassis.pid_wait(); //wait for turn to finish
            chassis.pid_drive_set(15_in, DRIVE_SPEED, true); //drive to ring stack //change made here
      chassis.pid_wait(); //wait for turn to finish
-  chassis.pid_turn_set(3_deg, DRIVE_SPEED); //turn to face other ring stack
+  chassis.pid_turn_set(5_deg, DRIVE_SPEED); //turn to face other ring stack
       chassis.pid_wait_quick_chain(); //wait for turn to finish
-  chassis.pid_drive_set(-47.25_in, DRIVE_SPEED, true); //change made here 
+  chassis.pid_drive_set(-45_in, DRIVE_SPEED, true); //change made here 
     PIntake.set(true); //raise intake
       chassis.pid_wait(); //wait for drive to finish
      pros::delay(100);
@@ -312,7 +312,7 @@ void rush_ring_red(){
       chassis.pid_wait(); //wait for drive to finish
 }
 
-void safe_ring(){
+void safe_ring(){             //COMPLETE
     LBPID.target_set(690); //put up lady brown
       pros::delay(700);
     LBPID.target_set(0);
@@ -350,7 +350,7 @@ void safe_ring(){
       chassis.pid_wait(); //wait for drive to finish
 }
 
-void mirror_safe_ring(){
+void mirror_safe_ring(){            //COMPLETE
     LBPID.target_set(690); //put up lady brown
       pros::delay(700);
     LBPID.target_set(0);
