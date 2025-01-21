@@ -64,7 +64,8 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-     {"red ring rush", rush_ring_red},
+     {"RED RING side 5ring", rush_ring_red},
+          {"BLUE RING side 5 ring", rush_ring_blue},
        {"SKILLS", skills},
         {"QUALS!!!! BLUE Ring Side and RED Goal\n grab goal and score 2 rings on each ", safe_ring},
       {"QUALS!!!! RED Ring Side and BLUE Goal\n grab goal and score 2 rings on each ", mirror_safe_ring},
