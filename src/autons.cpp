@@ -121,11 +121,12 @@ chassis.pid_wait(); //wait for drive to finish
                       chassis.pid_turn_set(93_deg, DRIVE_SPEED);
 
                             chassis.pid_wait_quick_chain();
-                chassis.pid_drive_set(25.1_in, DRIVE_SPEED, true);
-                  chassis.pid_wait_until(22_in); //wait until 25 inches, then slow down
+                chassis.pid_drive_set(25.35_in, DRIVE_SPEED, true);
+                  chassis.pid_wait_until(21.5_in); //wait until 25 inches, then slow down
   chassis.pid_speed_max_set(30);
+    chassis.pid_wait_until(25.1_in); //wait until 25 inches, then slow down
+             MOGOClamp.set(true);
                               chassis.pid_wait();
-           MOGOClamp.set(true);
            pros::delay(250);
            chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
                                            intake.move(127); 
@@ -143,7 +144,7 @@ chassis.pid_wait(); //wait for drive to finish
                  chassis.pid_wait();
                   chassis.pid_turn_set(180_deg, DRIVE_SPEED);
                             chassis.pid_wait_quick_chain();
-                         chassis.pid_drive_set(-35_in, 90, true);
+                         chassis.pid_drive_set(-34_in, 90, true);
                  chassis.pid_wait();
                                           chassis.pid_drive_set(3_in, 90, true);
                  chassis.pid_wait();
@@ -173,16 +174,19 @@ chassis.pid_wait(); //wait for drive to finish
                     chassis.pid_wait();
                   chassis.pid_drive_set(-36_in, DRIVE_SPEED, true);
                   chassis.pid_wait();
-                                               chassis.pid_turn_set(210_deg, DRIVE_SPEED);
+                                               chassis.pid_turn_set(200_deg, DRIVE_SPEED);
                     chassis.pid_wait();
-                  chassis.pid_drive_set(15_in, DRIVE_SPEED, true);
+                  chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
                    intake.move(10);
                   chassis.pid_wait();
                        chassis.pid_turn_set(-90_deg, DRIVE_SPEED);
                          chassis.pid_wait();
-                        chassis.pid_drive_set(50_in, DRIVE_SPEED, true);
+                        chassis.pid_drive_set(40_in, DRIVE_SPEED, true);
                            chassis.pid_wait_until(30_in);
          MOGOClamp.set(true);
+                           chassis.pid_wait();
+                              pros::delay(250);
+        chassis.pid_drive_set(10_in, DRIVE_SPEED, true);
                   chassis.pid_wait();
                  chassis.pid_turn_set(-115_deg, DRIVE_SPEED);
                   intake.move(127); 
