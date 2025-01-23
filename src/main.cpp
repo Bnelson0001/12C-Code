@@ -36,12 +36,12 @@ void initialize() {
   // Print our branding over your terminal :D
 
 //test logging
- std::vector<int> left_motors = {1, -2, 3};
- std::vector<int> right_motors = {-4, 5, -6};
- maelstrom::logging::init(true, true, left_motors, right_motors, 50);
+ std::vector<int> left_motors = {-1, -2, -3};
+ std::vector<int> right_motors = {4, 5, 6};
+ //maelstrom::logging::init(true, true, left_motors, right_motors, 50);
 
 
-   pros::Task error_logger(maelstrom::logging::robot_faults_log);
+//   pros::Task error_logger(maelstrom::logging::robot_faults_log);
 
 
 
@@ -353,8 +353,8 @@ pros::Task color_task(check_color);
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
-   //chassis.opcontrol_tank();  // Tank control
-     chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
+   chassis.opcontrol_tank();  // Tank control
+  //   chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
@@ -365,7 +365,7 @@ pros::Task color_task(check_color);
       LBPID.target_set(50);
     }
     else if (master.get_digital(DIGITAL_Y)) {
-      LBPID.target_set(140);
+      LBPID.target_set(135);
     }
                 printf("Angle: %ld \n", rot_LB.get_angle());
                 pros::delay(20);
