@@ -31,18 +31,17 @@ ez::tracking_wheel horiz_tracker(-19, 2, 2.785);  // This tracking wheel is perp
  */
 void toggle_color_mode();
 
+//test logging
+ std::vector<int> left_motors = {-1, -2, -3};
+ std::vector<int> right_motors = {4, 5, 6};
+
 
 void initialize() {
   // Print our branding over your terminal :D
 
-//test logging
- std::vector<int> left_motors = {-1, -2, -3};
- std::vector<int> right_motors = {4, 5, 6};
- //maelstrom::logging::init(true, true, left_motors, right_motors, 50);
 
-
-//   pros::Task error_logger(maelstrom::logging::robot_faults_log);
-
+ maelstrom::logging::init(true, true, left_motors, right_motors, 50);
+  
 
 
   ez::ez_template_print();
@@ -96,6 +95,7 @@ void initialize() {
       {"Boomerang Pure Pursuit\n\nGo to (0, 24, 45) on the way to (24, 24) then come back to (0, 0, 0)", odom_boomerang_injected_pure_pursuit_example},
       {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
   });
+ pros::Task error_logger(maelstrom::logging::robot_faults_log);
 
   // Initialize chassis and auton selector
   chassis.initialize();
@@ -331,12 +331,12 @@ void ez_template_extras() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-// void update_lcd() {
-//   while (true) {
-//   //  pros::lcd::print(0, "Angle: %f/ ", rot_LB.get_angle());
-//     pros::delay(100);  // Update every 20 milliseconds
-//   }
-// } 
+void update_lcd() {
+  while (true) {
+  //  pros::lcd::print(0, "Angle: %f/ ", rot_LB.get_angle());
+    pros::delay(100);  // Update every 20 milliseconds
+  }
+} 
 
 
 void opcontrol() {
@@ -349,7 +349,7 @@ void opcontrol() {
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 chassis.opcontrol_joystick_practicemode_toggle(false);
 pros::Task color_task(check_color);
-//pros::Task LCD_Task(update_lcd);  
+pros::Task LCD_Task(update_lcd);  
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
@@ -365,7 +365,7 @@ pros::Task color_task(check_color);
       LBPID.target_set(50);
     }
     else if (master.get_digital(DIGITAL_Y)) {
-      LBPID.target_set(135);
+      LBPID.target_set(110);
     }
                 printf("Angle: %ld \n", rot_LB.get_angle());
                 pros::delay(20);
