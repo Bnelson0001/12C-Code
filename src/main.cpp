@@ -34,6 +34,17 @@ void toggle_color_mode();
 
 void initialize() {
   // Print our branding over your terminal :D
+
+//test logging
+ std::vector<int> left_motors = {1, -2, 3};
+ std::vector<int> right_motors = {-4, 5, -6};
+ maelstrom::logging::init(true, true, left_motors, right_motors, 50);
+
+
+   pros::Task error_logger(maelstrom::logging::robot_faults_log);
+
+
+
   ez::ez_template_print();
    rot_LB.set_position(0);
   pros::delay(500);  // Stop the user from doing anything while legacy ports configure
@@ -331,6 +342,10 @@ void ez_template_extras() {
 void opcontrol() {
   // This is preference to what you like to drive on
   pros::Task Lift_Task(lift_task);
+//log test
+ pros::Task coords_logging(maelstrom::logging::robot_coords_log);
+
+
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 chassis.opcontrol_joystick_practicemode_toggle(false);
 pros::Task color_task(check_color);
