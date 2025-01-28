@@ -11,6 +11,7 @@ extern Drive chassis;
 // inline pros::adi::DigitalIn limit_switch('A');
 
 inline pros::Motor r_LB(20);
+inline pros::Rotation rot_LB (16);
 
 inline void set_lift(int input) {
   r_LB.move(input);
@@ -19,11 +20,11 @@ inline void set_lift(int input) {
 inline ez::PID LBPID{0.45, 0, .1, 0, "LB"};
 
 inline void lift_wait() {
-  while (LBPID.exit_condition(r_LB, true) == ez::RUNNING) {
+  while (LBPID.exit_condition(rot_LB, true) == ez::RUNNING) {
     pros::delay(ez::util::DELAY_TIME);
   }
 }
-inline pros::Rotation rot_LB (-16);
+
 
 
 inline pros::Motor intake(7);  // Make this number negative if you want to reverse the motor

@@ -75,11 +75,14 @@ void initialize() {
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
      {"RED RING side 5ring", rush_ring_red},
-          {"BLUE RING side 5 ring", rush_ring_blue},
-       {"SKILLS", skills},
-        {"QUALS!!!! BLUE Ring Side and RED Goal\n grab goal and score 2 rings on each ", safe_ring},
-      {"QUALS!!!! RED Ring Side and BLUE Goal\n grab goal and score 2 rings on each ", mirror_safe_ring},
-    {"ELIMS! Blue Goal Rush\n\n grab goal and score 2 rings on each ", blue_goal},
+     {"BLUE RING side 5 ring", rush_ring_blue},
+         {"ELIMS! BLUE Goal Rush\n\n grab goal and score 2 rings on each ", blue_goal},
+                  {"ELIMS! RED Goal Rush\n\n grab goal and score 2 rings on each ", red_goal},
+             {"QUALS!!!! GOAL SIDE RED and BLUE Ring Side \n grab goal and score 2 rings on each ", safe_ring},
+             {"QUALS!!!! GOAL SIDE BLUE and RED Ring Side \n grab goal and score 2 rings on each ", mirror_safe_ring},
+                    {"SKILLS", skills},
+            {"ELIMS RED RING side 5ring", rush_ring_red_elims},
+          {"ELIMS BLUE RING side 5 ring", rush_ring_blue_elims},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
@@ -130,7 +133,7 @@ void toggle_color_mode() {
 void lift_task() {
   pros::delay(2000);  // Set EZ-Template calibrate before this function starts running
   while (true) {
-    set_lift(LBPID.compute((r_LB.get_position())));
+    set_lift(LBPID.compute((rot_LB.get_angle())));
 
     pros::delay(ez::util::DELAY_TIME);
   }
@@ -143,18 +146,18 @@ void check_color() {
     if (current_mode == BLUE_MODE) {    // Blue CODE    
       if ((OpColor.get_hue()) < 17) { // Red
         PColor.set(true);
-        pros::lcd::print(0, "Red Detected");
+      //  pros::lcd::print(0, "Red Detected");
       } else {
         PColor.set(false);
-        pros::lcd::print(0, "No Color Detected");
+       // pros::lcd::print(0, "No Color Detected");
       }
     } else if (current_mode == RED_MODE) {    // RED CODE
-      if (((OpColor.get_hue()) > 185) && ((OpColor.get_hue()) < 350)){ // Blue
+      if (((OpColor.get_hue()) > 190) && ((OpColor.get_hue()) < 350)){ // Blue
         PColor.set(true);
-        pros::lcd::print(0, "Blue Detected");
+      //  pros::lcd::print(0, "Blue Detected");
       } else {
         PColor.set(false);
-        pros::lcd::print(0, "No Color Detected");
+      //  pros::lcd::print(0, "No Color Detected");
       }
     } else {
       // No sort mode
@@ -333,7 +336,7 @@ void ez_template_extras() {
  */
 void update_lcd() {
   while (true) {
-  //  pros::lcd::print(0, "Angle: %f/ ", rot_LB.get_angle());
+  pros::lcd::print(0, "Angle: %f/ ", rot_LB.get_angle());
     pros::delay(100);  // Update every 20 milliseconds
   }
 } 
@@ -343,7 +346,6 @@ void opcontrol() {
   // This is preference to what you like to drive on
   pros::Task Lift_Task(lift_task);
 //log test
- pros::Task coords_logging(maelstrom::logging::robot_coords_log);
 
 
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
@@ -359,13 +361,17 @@ pros::Task LCD_Task(update_lcd);
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
  if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
-      LBPID.target_set(640);
+      LBPID.target_set(660);
     }
     else if (master.get_digital(DIGITAL_A)) {
       LBPID.target_set(50);
     }
-    else if (master.get_digital(DIGITAL_Y)) {
-      LBPID.target_set(110);
+
+     if (master.get_digital(DIGITAL_UP)) {       //Lady Brown DC
+      LBPID.target_set(620);
+    }
+    else if (master.get_digital(DIGITAL_Y)) {       //JULIAN CHANGE HERE
+      LBPID.target_set(127.5);
     }
                 printf("Angle: %ld \n", rot_LB.get_angle());
                 pros::delay(20);
