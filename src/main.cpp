@@ -1,5 +1,5 @@
 #include "main.h"
-
+#include <iostream> 
 
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
@@ -42,10 +42,10 @@ void initialize() {
 
  maelstrom::logging::init(true, true, left_motors, right_motors, 50);
   
-
-
+r_LB.tare_position();
+rot_LB.reset_position();
   ez::ez_template_print();
-   rot_LB.set_position(0);
+
   pros::delay(500);  // Stop the user from doing anything while legacy ports configure
 
   pros::lcd::initialize();
@@ -133,7 +133,7 @@ void toggle_color_mode() {
 void lift_task() {
   pros::delay(2000);  // Set EZ-Template calibrate before this function starts running
   while (true) {
-    set_lift(LBPID.compute((rot_LB.get_angle())));
+    set_lift(LBPID.compute((r_LB.get_position())));
 
     pros::delay(ez::util::DELAY_TIME);
   }
@@ -336,7 +336,8 @@ void ez_template_extras() {
  */
 void update_lcd() {
   while (true) {
-  pros::lcd::print(0, "Angle: %f/ ", rot_LB.get_angle());
+   std::cout << "Angle: " << rot_LB.get_position() << std::endl;
+    pros::lcd::print(0, "Angle: %f", rot_LB.get_position());
     pros::delay(100);  // Update every 20 milliseconds
   }
 } 
@@ -347,11 +348,11 @@ void opcontrol() {
   pros::Task Lift_Task(lift_task);
 //log test
 
-
+  pros::Task color_task(check_color);
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 chassis.opcontrol_joystick_practicemode_toggle(false);
-pros::Task color_task(check_color);
-pros::Task LCD_Task(update_lcd);  
+
+//pros::Task LCD_Task(update_lcd);  
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
@@ -360,6 +361,10 @@ pros::Task LCD_Task(update_lcd);
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
+
+
+
+    
  if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
       LBPID.target_set(660);
     }

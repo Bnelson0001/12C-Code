@@ -505,12 +505,13 @@ void red_goal(){
   doinker.set(true);
 chassis.pid_drive_set(-38_in, DRIVE_SPEED, true);
   chassis.pid_wait_until(-10_in);
-intake.move(105); //intake
-  chassis.pid_wait_until(-35_in);
-  intake.move(0); //intake
+intake.move(127); //intake
+  chassis.pid_wait_until(-38_in);
       chassis.pid_wait(); //wait for drive to finish
                            doinker.set(false);
 chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
+  chassis.pid_wait_until(2_in);
+  intake.move(0); //intake
       chassis.pid_wait(); //wait for drive to finish
   chassis.pid_turn_set(127_deg, DRIVE_SPEED); 
       chassis.pid_wait_quick_chain(); //wait for turn to finish
@@ -525,7 +526,7 @@ chassis.pid_drive_set(35_in, DRIVE_SPEED, true);
 chassis.pid_drive_set(-38_in, DRIVE_SPEED, true);
       chassis.pid_wait(); //wait for drive to finish
 
-        chassis.pid_turn_set(110_deg, DRIVE_SPEED); 
+        chassis.pid_turn_set(115_deg, DRIVE_SPEED); 
               chassis.pid_wait(); //wait for drive to finish
                                                 doinker.set(true);
               chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
@@ -533,19 +534,80 @@ chassis.pid_drive_set(-38_in, DRIVE_SPEED, true);
               chassis.pid_turn_set(0_deg, DRIVE_SPEED); 
               chassis.pid_wait(); //wait for drive to finish
                                                 doinker.set(false);
-                      chassis.pid_turn_set(100_deg, DRIVE_SPEED); 
+                      chassis.pid_turn_set(32_deg, DRIVE_SPEED); 
               chassis.pid_wait(); //wait for drive to finish
-
-
+                    chassis.pid_drive_set(-23_in, DRIVE_SPEED, true);
+      chassis.pid_wait(); //wait for drive to finish
+                    chassis.pid_drive_set(5_in, DRIVE_SPEED, true);
+      chassis.pid_wait(); //wait for drive to finish
+                    chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
+      chassis.pid_wait(); //wait for drive to finish
+                          chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
+      chassis.pid_wait(); //wait for drive to finish
+                   MOGOClamp.set(false);
+                                             chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
+      chassis.pid_wait(); //wait for drive to finish
+                      chassis.pid_turn_set(220_deg, DRIVE_SPEED); 
+              chassis.pid_wait(); //wait for drive to finish
 
 }
 
 void blue_goal(){
+  doinker.set(true);
+chassis.pid_drive_set(-38_in, DRIVE_SPEED, true);
+  chassis.pid_wait_until(-20_in);
+intake.move(127); //intake
+  chassis.pid_wait_until(-38_in);
+      chassis.pid_wait(); //wait for drive to finish
+                           doinker.set(false);
+chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
+  chassis.pid_wait_until(2_in);
+  intake.move(0); //intake
+      chassis.pid_wait(); //wait for drive to finish
+  chassis.pid_turn_set(-110_deg, DRIVE_SPEED); 
+      chassis.pid_wait_quick_chain(); //wait for turn to finish
+chassis.pid_drive_set(20_in, DRIVE_SPEED, true);
+  chassis.pid_wait_until(15_in);
+  chassis.pid_speed_max_set(90); 
+      chassis.pid_wait(); //wait for drive to finish
+             MOGOClamp.set(true);
+chassis.pid_drive_set(-47_in, DRIVE_SPEED, true);
+        intake.move(127); //intake
+      chassis.pid_wait(); //wait for drive to finish
+                                  doinker.set(true);
+        chassis.pid_turn_set(-150_deg, DRIVE_SPEED);  
+              chassis.pid_wait(); //wait for drive to finish
 
+              chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
 
-
-
-
+              doinker.set(true);
+        chassis.pid_turn_set(-240_deg, DRIVE_SPEED);  
+              chassis.pid_wait(); //wait for drive to finish
+               chassis.pid_turn_set(-220_deg, DRIVE_SPEED);  
+              chassis.pid_wait(); //wait for drive to finish
+                      doinker.set(false);      
+              chassis.pid_drive_set(-13_in, DRIVE_SPEED, true);
+        intake.move(127); //intake
+      chassis.pid_wait(); //wait for drive to finish
+                                  chassis.pid_drive_set(3_in, DRIVE_SPEED, true);
+                                  chassis.pid_wait(); 
+                                                 chassis.pid_turn_set(-250_deg, DRIVE_SPEED);  
+              chassis.pid_wait(); //wait for drive to finish
+                            chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
+                                  chassis.pid_wait(); 
+        chassis.pid_turn_set(0_deg, DRIVE_SPEED);  
+                                       chassis.pid_wait(); 
+                                    chassis.pid_drive_set(-22_in, DRIVE_SPEED, true);
+                                  chassis.pid_wait(); 
+        chassis.pid_turn_set(40_deg, DRIVE_SPEED);  
+                                       chassis.pid_wait(); 
+             chassis.pid_drive_set(13_in, DRIVE_SPEED, true);
+                                  chassis.pid_wait(); 
+                                               MOGOClamp.set(false);
+                                                            chassis.pid_drive_set(-22_in, DRIVE_SPEED, true);
+                                  chassis.pid_wait(); 
+                                   chassis.pid_turn_set(220_deg, DRIVE_SPEED);  
+                                       chassis.pid_wait(); 
 }
 
 
