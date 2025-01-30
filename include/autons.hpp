@@ -25,3 +25,5 @@ void rush_ring_red();
 void rush_ring_blue();
 void rush_ring_red_elims();
 void rush_ring_blue_elims();
+void solo_blue();
+void solo_red();

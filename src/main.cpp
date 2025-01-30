@@ -74,6 +74,8 @@ rot_LB.reset_position();
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+     {"BLUE SOLO AWP - ring side start", solo_blue},
+          {"RED SOLO AWP - ring side start", solo_red},
      {"RED RING side 5ring", rush_ring_red},
      {"BLUE RING side 5 ring", rush_ring_blue},
          {"ELIMS! BLUE Goal Rush\n\n grab goal and score 2 rings on each ", blue_goal},

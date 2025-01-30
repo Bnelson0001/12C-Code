@@ -10,7 +10,7 @@ extern Drive chassis;
 // inline pros::Motor intake(1);
 // inline pros::adi::DigitalIn limit_switch('A');
 
-inline pros::Motor r_LB(20);
+inline pros::Motor r_LB(9);
 inline pros::Rotation rot_LB (13);
 
 inline void set_lift(int input) {
