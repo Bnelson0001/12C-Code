@@ -132,6 +132,24 @@ void toggle_color_mode() {
   pros::lcd::print(4, "Mode: %s", current_mode == BLUE_MODE ? "Blue" : (current_mode == RED_MODE ? "Red" : "No Sort"));
 }
 
+void color_auto_stop(){
+   if (current_mode == RED_MODE) {    // RED CODE    
+      if ((OpColor.get_hue()) < 17) { // Red
+           intake.move(0);
+           pros::delay(200);
+      } else {
+             intake.move(127);
+      }
+    } else {    // BLUE CODE
+      if (((OpColor.get_hue()) > 190) && ((OpColor.get_hue()) < 350)){ // blue
+     intake.move(0);
+             pros::delay(200);
+      } else {
+     intake.move(127);
+      }
+    }
+}
+
 void lift_task() {
   pros::delay(2000);  // Set EZ-Template calibrate before this function starts running
   while (true) {
