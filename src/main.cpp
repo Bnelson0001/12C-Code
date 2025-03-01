@@ -9,10 +9,10 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {-1, -2, -3},     // Left Chassis Ports (negative port will reverse it!)
-    {4, 5, 6},  // Right Chassis Ports (negative port will reverse it!)
+    {-15, -16, -17},     // Left Chassis Ports (negative port will reverse it!)
+    {18, 19, 20},  // Right Chassis Ports (negative port will reverse it!)
 
-    12,      // IMU Port
+    10,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
     450);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 // Uncomment the trackers you're using here!
@@ -20,7 +20,9 @@ ez::Drive chassis(
 //  - you should get positive values on the encoders going FORWARD and RIGHT
 // - `2.75` is the wheel diameter
 // - `4.0` is the distance from the center of the wheel to the center of the robot
-ez::tracking_wheel horiz_tracker(-19, 2, 2.785);  // This tracking wheel is perpendicular to the drive wheels
+
+
+//ez::tracking_wheel horiz_tracker(-19, 2, 2.785);  // This tracking wheel is perpendicular to the drive wheels
 // ez::tracking_wheel vert_tracker(9, 2.75, 4.0);   // This tracking wheel is parallel to the drive wheels
 
 /**
@@ -54,7 +56,11 @@ rot_LB.reset_position();
   // Look at your horizontal tracking wheel and decide if it's in front of the midline of your robot or behind it
   //  - change `back` to `front` if the tracking wheel is in front of the midline
   //  - ignore this if you aren't using a horizontal tracker
- chassis.odom_tracker_front_set(&horiz_tracker);
+ 
+ 
+ // chassis.odom_tracker_front_set(&horiz_tracker);
+
+
   // Look at your vertical tracking wheel and decide if it's to the left or right of the center of the robot
   //  - change `left` to `right` if the tracking wheel is to the right of the centerline
   //  - ignore this if you aren't using a vertical tracker
@@ -76,15 +82,11 @@ rot_LB.reset_position();
   ez::as::auton_selector.autons_add({
      {"BLUE SOLO AWP - ring side start", solo_blue},
           {"RED SOLO AWP - ring side start", solo_red},
-     {"RED RING side 5ring", rush_ring_red},
-     {"BLUE RING side 5 ring", rush_ring_blue},
          {"ELIMS! BLUE Goal Rush\n\n grab goal and score 2 rings on each ", blue_goal},
                   {"ELIMS! RED Goal Rush\n\n grab goal and score 2 rings on each ", red_goal},
              {"QUALS!!!! GOAL SIDE RED and BLUE Ring Side \n grab goal and score 2 rings on each ", safe_ring},
              {"QUALS!!!! GOAL SIDE BLUE and RED Ring Side \n grab goal and score 2 rings on each ", mirror_safe_ring},
                     {"SKILLS", skills},
-            {"ELIMS RED RING side 5ring", rush_ring_red_elims},
-          {"ELIMS BLUE RING side 5 ring", rush_ring_blue_elims},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
@@ -109,17 +111,19 @@ rot_LB.reset_position();
 
   LBPID.exit_condition_set(80, 50, 300, 150, 500, 500);
 
+  OpColor.set_led_pwm(100);
+
 chassis.pid_tuner_full_enable(true);  
 
 }
-
+double target_set = 0;
 enum ColorMode {    // Global variable to keep track of the current mode
   BLUE_MODE,
   RED_MODE,
   NO_SORT_MODE
 }; 
 
-ColorMode current_mode = RED_MODE;  
+ColorMode current_mode = NO_SORT_MODE;  
 
 void toggle_color_mode() {
   if (current_mode == BLUE_MODE) {
@@ -153,8 +157,9 @@ void color_auto_stop(){
 void lift_task() {
   pros::delay(2000);  // Set EZ-Template calibrate before this function starts running
   while (true) {
-    set_lift(LBPID.compute((r_LB.get_position())));
 
+    set_lift(LBPID.compute((r_LB.get_position())));
+    
     pros::delay(ez::util::DELAY_TIME);
   }
 }
@@ -164,24 +169,51 @@ void check_color() {
 
     // Check if the hue is less than the red threshold or greater than the blue threshold
     if (current_mode == BLUE_MODE) {    // Blue CODE    
-      if ((OpColor.get_hue()) < 17) { // Red
-        PColor.set(true);
+      if ((OpColor.get_hue()) < 17 && (OpColor.get_proximity() <= 300)) { // Red
+        pros::delay(20);
+        intake.move(-127);
+        pros::delay(100);
       //  pros::lcd::print(0, "Red Detected");
       } else {
-        PColor.set(false);
+        if (master.get_digital(DIGITAL_L1)) {  //Intake DC
+          intake.move(127);
+       } 
+       else if (master.get_digital(DIGITAL_L2)) {
+          intake.move(-127);
+       } 
+       else {
+          intake.move(0);
+       }
        // pros::lcd::print(0, "No Color Detected");
       }
     } else if (current_mode == RED_MODE) {    // RED CODE
-      if (((OpColor.get_hue()) > 190) && ((OpColor.get_hue()) < 350)){ // Blue
-        PColor.set(true);
-      //  pros::lcd::print(0, "Blue Detected");
+      if (((OpColor.get_hue()) > 190) && ((OpColor.get_hue()) < 350) && (OpColor.get_proximity() <= 255)){ // Blue
+        pros::delay(50);
+        intake.move(-127);
+        pros::delay(100);
       } else {
-        PColor.set(false);
+
+        if (master.get_digital(DIGITAL_L1)) {  //Intake DC
+          intake.move(127);
+       } 
+       else if (master.get_digital(DIGITAL_L2)) {
+          intake.move(-127);
+       } 
+       else {
+          intake.move(0);
+       }
       //  pros::lcd::print(0, "No Color Detected");
       }
     } else {
-      // No sort mode
-      PColor.set(false);
+      if (master.get_digital(DIGITAL_L1)) {  //Intake DC
+        intake.move(127);
+     } 
+     else if (master.get_digital(DIGITAL_L2)) {
+        intake.move(-127);
+     } 
+     else {
+        intake.move(0);
+     }
       pros::lcd::print(0, "No Sort Mode");
     }
 
@@ -190,7 +222,33 @@ void check_color() {
     pros::delay(20);
   }
 }
+void check_color_auto() {
+  while (true) {
 
+    // Check if the hue is less than the red threshold or greater than the blue threshold
+    if (current_mode == BLUE_MODE) {    // Blue CODE    
+      if ((OpColor.get_hue()) < 17 && (OpColor.get_proximity() <= 300)) { // Red
+        pros::delay(20);
+        intake.move(-127);
+        pros::delay(100);
+      //  pros::lcd::print(0, "Red Detected");
+      } 
+    } else if (current_mode == RED_MODE) {    // RED CODE
+      if (((OpColor.get_hue()) > 190) && ((OpColor.get_hue()) < 350) && (OpColor.get_proximity() <= 255)){ // Blue
+        pros::delay(50);
+        intake.move(-127);
+        pros::delay(100);
+      } 
+    } else {
+
+      pros::lcd::print(0, "No Sort Mode");
+    }
+
+
+    // Adding a delay to avoid excessive CPU usage
+    pros::delay(20);
+  }
+}
 
 
 /**
@@ -228,13 +286,12 @@ void competition_initialize() {
  */
 void autonomous() {
   pros::Task Lift_Task(lift_task);
-  pros::Task color_task(check_color);
+  pros::Task color_task_auto(check_color_auto);
   chassis.pid_targets_reset();                // Resets PID targets to 0
   chassis.drive_imu_reset();                  // Reset gyro position to 0
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);    // Set the current position, you can start at a specific position with this
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
-
   /*
   Odometry and Pure Pursuit are not magic
 
@@ -365,15 +422,40 @@ void update_lcd() {
 
 void opcontrol() {
   // This is preference to what you like to drive on
-  pros::Task Lift_Task(lift_task);
-//log test
+
+//log test2
 
   pros::Task color_task(check_color);
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 chassis.opcontrol_joystick_practicemode_toggle(false);
-
-//pros::Task LCD_Task(update_lcd);  
+pros::Task Lift_Task(lift_task);
   while (true) {
+
+
+    LBPID.target_set(target_set);
+
+
+   if (master.get_digital(DIGITAL_A)) {
+
+    target_set = -10;
+
+    } else if (master.get_digital(DIGITAL_Y)) {    
+      target_set = 150;
+    }
+
+    if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
+    //  target_set = target_set + 100;
+      target_set = 1500;
+    }
+
+
+
+
+
+    printf("Angle: %ld \n", rot_LB.get_angle());
+    pros::delay(20);
+
+
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
    chassis.opcontrol_tank();  // Tank control
@@ -384,41 +466,15 @@ chassis.opcontrol_joystick_practicemode_toggle(false);
 
 
 
-    
- if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
-      LBPID.target_set(660);
-    }
-    else if (master.get_digital(DIGITAL_A)) {
-      LBPID.target_set(50);
-    }
-
-     if (master.get_digital(DIGITAL_UP)) {       //Lady Brown DC
-      LBPID.target_set(620);
-    }
-    else if (master.get_digital(DIGITAL_Y)) {       //JULIAN CHANGE HERE
-      LBPID.target_set(127.5);
-    }
-                printf("Angle: %ld \n", rot_LB.get_angle());
-                pros::delay(20);
 
 
-  if (master.get_digital(DIGITAL_L1)) {  //Intake DC
-     intake.move(127);
-  } 
-  else if (master.get_digital(DIGITAL_L2)) {
-     intake.move(-127);
-  } 
-  else {
-     intake.move(0);
-  }
-
-
-if (master.get_digital(DIGITAL_R2)) {         //Mogo DC
-  MOGOClamp.set(true);
-} 
-else if (master.get_digital(DIGITAL_R1)) {
+if (master.get_digital(DIGITAL_R1)) {         //Mogo DC
   MOGOClamp.set(false);
+} 
+else if (master.get_digital(DIGITAL_R2)) {
+  MOGOClamp.set(true);
 }   
+
 if (master.get_digital(DIGITAL_LEFT)) {         //Mogo DC
   PIntake.set(false);
 }
@@ -427,7 +483,7 @@ if ((master.get_digital(DIGITAL_LEFT)) && (master.get_digital(DIGITAL_RIGHT)) &&
 current_mode = NO_SORT_MODE;
 }
 
-doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
+//doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

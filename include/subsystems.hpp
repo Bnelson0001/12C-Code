@@ -10,29 +10,32 @@ extern Drive chassis;
 // inline pros::Motor intake(1);
 // inline pros::adi::DigitalIn limit_switch('A');
 
-inline pros::Motor r_LB(9);
-inline pros::Rotation rot_LB (13);
+inline pros::Motor r_LB(-2);
+inline pros::Motor l_LB(3);
+inline pros::Rotation rot_LB (1);
+
 
 inline void set_lift(int input) {
   r_LB.move(input);
+  l_LB.move(input);
 }
 
 inline ez::PID LBPID{0.45, 0, .1, 0, "LB"};
 
 inline void lift_wait() {
-  while (LBPID.exit_condition(r_LB, true) == ez::RUNNING) {   //rot_LB.get_position()
+  while (LBPID.exit_condition({l_LB, r_LB}, true) == ez::RUNNING) {   //rot_LB.get_position()
     pros::delay(ez::util::DELAY_TIME);
   }
 }
 
 
+inline pros::Motor intake(-4);  // Make this number negative if you want to reverse the motor
 
-inline pros::Motor intake(7);  // Make this number negative if you want to reverse the motor
 
+inline pros::Optical OpColor (5);
 
-inline pros::Optical OpColor (14);
-
-inline ez::Piston doinker('D');
-inline ez::Piston PIntake('H');
-inline ez::Piston MOGOClamp('A');
+inline ez::Piston doinker('E');
+inline ez::Piston doinkerL('D');
+inline ez::Piston PIntake('B');
+inline ez::Piston MOGOClamp('-A');
 inline ez::Piston PColor('F');
