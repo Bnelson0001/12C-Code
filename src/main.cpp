@@ -22,7 +22,7 @@ ez::Drive chassis(
 // - `4.0` is the distance from the center of the wheel to the center of the robot
 
 
-//ez::tracking_wheel horiz_tracker(-19, 2, 2.785);  // This tracking wheel is perpendicular to the drive wheels
+//ez::tracking_wheel horiz_tracker(-19, 2, 2.785);  // This tracking wheel is perpendicular to the drive wheels  SLOT 6
 // ez::tracking_wheel vert_tracker(9, 2.75, 4.0);   // This tracking wheel is parallel to the drive wheels
 
 /**
@@ -45,6 +45,7 @@ void initialize() {
  maelstrom::logging::init(true, true, left_motors, right_motors, 50);
   
 r_LB.tare_position();
+l_LB.tare_position();
 rot_LB.reset_position();
   ez::ez_template_print();
 
@@ -116,7 +117,7 @@ rot_LB.reset_position();
 chassis.pid_tuner_full_enable(true);  
 
 }
-double target_set = 0;
+
 enum ColorMode {    // Global variable to keep track of the current mode
   BLUE_MODE,
   RED_MODE,
@@ -136,33 +137,9 @@ void toggle_color_mode() {
   pros::lcd::print(4, "Mode: %s", current_mode == BLUE_MODE ? "Blue" : (current_mode == RED_MODE ? "Red" : "No Sort"));
 }
 
-void color_auto_stop(){
-   if (current_mode == RED_MODE) {    // RED CODE    
-      if ((OpColor.get_hue()) < 17) { // Red
-           intake.move(0);
-           pros::delay(200);
-      } else {
-             intake.move(127);
-      }
-    } else {    // BLUE CODE
-      if (((OpColor.get_hue()) > 190) && ((OpColor.get_hue()) < 350)){ // blue
-     intake.move(0);
-             pros::delay(200);
-      } else {
-     intake.move(127);
-      }
-    }
-}
 
-void lift_task() {
-  pros::delay(2000);  // Set EZ-Template calibrate before this function starts running
-  while (true) {
 
-    set_lift(LBPID.compute((r_LB.get_position())));
-    
-    pros::delay(ez::util::DELAY_TIME);
-  }
-}
+
         int color_value = OpColor.get_hue();
 void check_color() {
   while (true) {
@@ -222,42 +199,75 @@ void check_color() {
     pros::delay(20);
   }
 }
+
+
 void check_color_auto() {
   while (true) {
 
     // Check if the hue is less than the red threshold or greater than the blue threshold
     if (current_mode == BLUE_MODE) {    // Blue CODE    
       if ((OpColor.get_hue()) < 17 && (OpColor.get_proximity() <= 300)) { // Red
-        pros::delay(20);
-        intake.move(-127);
-        pros::delay(100);
+        sort_active = true;
+      }
+        else {
+          sort_active = false;
+        }
+      
+    } 
+    else if (current_mode == RED_MODE) {    // RED CODE
+      if ( ((OpColor.get_hue()) > 190) && ((OpColor.get_hue()) < 350) && (OpColor.get_proximity() <= 300)) { // Blue
+        sort_active = true;
       //  pros::lcd::print(0, "Red Detected");
       } 
-    } else if (current_mode == RED_MODE) {    // RED CODE
-      if (((OpColor.get_hue()) > 190) && ((OpColor.get_hue()) < 350) && (OpColor.get_proximity() <= 255)){ // Blue
-        pros::delay(50);
-        intake.move(-127);
-        pros::delay(100);
-      } 
-    } else {
-
-      pros::lcd::print(0, "No Sort Mode");
+      else {
+        sort_active = false;
+      }
     }
-
-
+    else {
+      sort_active = false;
+    }
     // Adding a delay to avoid excessive CPU usage
-    pros::delay(20);
+   
   }
 }
 
+void intake_auto(){
 
+
+ if (auto_intake_control){
+  intake.move(0);
+}
+else if(sort_active){
+  pros::delay(20);
+  intake.move(-127);
+  pros::delay(100);
+  sort_active = false;
+} 
+else {
+  intake.move(127);
+}
+
+if (auto_outtake_control){
+  intake.move(0);
+}
+else if(sort_active){
+  pros::delay(20);
+  intake.move(-127);
+  pros::delay(100);
+  sort_active = false;
+} 
+else {
+  intake.move(-127);
+}
+
+}
 /**
  * Runs while the robot is in the disabled state of Field Management System or
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
 void disabled() {
-  pros::Task Lift_Task(lift_task);
+  //pros::Task Lift_Task(lift_task); // Re-enabling Lift_Task
 }
 
 /**
@@ -270,7 +280,7 @@ void disabled() {
  * starts.
  */
 void competition_initialize() {
-  pros::Task Lift_Task(lift_task);
+  // pros::Task Lift_Task(lift_task); // Re-enabling Lift_Task
 }
 
 /**
@@ -286,7 +296,8 @@ void competition_initialize() {
  */
 void autonomous() {
   pros::Task Lift_Task(lift_task);
-  pros::Task color_task_auto(check_color_auto);
+  // pros::Task color_task(check_color_auto);
+  // pros::Task intake_task(intake_auto);
   chassis.pid_targets_reset();                // Resets PID targets to 0
   chassis.drive_imu_reset();                  // Reset gyro position to 0
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
@@ -428,7 +439,7 @@ void opcontrol() {
   pros::Task color_task(check_color);
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 chassis.opcontrol_joystick_practicemode_toggle(false);
-pros::Task Lift_Task(lift_task);
+pros::Task Lift_Task(lift_task);                                //TURN BACK ON!!!
   while (true) {
 
 
@@ -437,10 +448,9 @@ pros::Task Lift_Task(lift_task);
 
    if (master.get_digital(DIGITAL_A)) {
 
-    target_set = -10;
-
+    target_set = -1000;
     } else if (master.get_digital(DIGITAL_Y)) {    
-      target_set = 150;
+      target_set = 140;
     }
 
     if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
@@ -483,7 +493,7 @@ if ((master.get_digital(DIGITAL_LEFT)) && (master.get_digital(DIGITAL_RIGHT)) &&
 current_mode = NO_SORT_MODE;
 }
 
-//doinker.button_toggle(master.get_digital(DIGITAL_B));                               //doinker DC
+doinker.button_toggle(master.get_digital(DIGITAL_B));                               //TURN BACK ON!!!
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

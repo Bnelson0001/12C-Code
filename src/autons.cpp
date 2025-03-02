@@ -53,46 +53,75 @@ chassis.pid_swing_constants_backward_set(6.90, 0.0, 55.0);   // Swing constants
 
 
 
-void skills(){ //notebook
+void skills(){ //notebook          
+   
   chassis.drive_angle_set(45_deg);
-
-  LBPID.target_set(1600);
+  pros::delay(100);
+  LBPID.target_set(1500);
   pros::delay(500);
- chassis.pid_drive_set(22_in, DRIVE_SPEED, true);
- chassis.pid_wait_until(20_in);
- MOGOClamp.set(true);
+  chassis.pid_drive_set(22_in, DRIVE_SPEED, true);
+  chassis.pid_wait_until(20_in);
+  MOGOClamp.set(true);
+ intake.move(127);
   chassis.pid_wait();
-  intake.move(127);
-  LBPID.target_set(-10);
+    LBPID.target_set(-20);
   chassis.pid_turn_set(180_deg, TURN_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   chassis.pid_turn_set(225_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(-26_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   chassis.pid_turn_set(180_deg, TURN_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(-45_in, DRIVE_SPEED, true);
   chassis.pid_wait();
+  chassis.pid_drive_set(45_in, DRIVE_SPEED, true);
+  chassis.pid_wait_until(30_in);
   LBPID.target_set(150);
-  chassis.pid_drive_set(43_in, DRIVE_SPEED, true);
   chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  intake.move(127);
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  pros::delay(250);
   intake.move(0);
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(-7_in, DRIVE_SPEED, true);
-  chassis.pid_wait();
   LBPID.target_set(1500);
-  pros::delay(750);
-  chassis.pid_drive_set(7_in, DRIVE_SPEED, true);
+  pros::delay(1300);
+  intake.move(127);
+  chassis.pid_drive_set(10_in, 90, true);
   chassis.pid_wait();
-  LBPID.target_set(-10);
+  LBPID.target_set(-20);
   chassis.pid_turn_set(0_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(60_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-59_in, 90, true);
   chassis.pid_wait();
+  pros::delay (250);
+  chassis.pid_drive_set(5_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-135_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-12_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  intake.move(0);
+  chassis.pid_drive_set(6_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+    chassis.pid_turn_set(135_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(12_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  MOGOClamp.set(false);
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(68_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  MOGOClamp.set(true);
+
+
 }
 
 void solo_blue(){  //notebook
