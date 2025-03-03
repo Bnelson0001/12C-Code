@@ -267,7 +267,7 @@ else {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
-  //pros::Task Lift_Task(lift_task); // Re-enabling Lift_Task
+  pros::Task Lift_Task(lift_task); // Re-enabling Lift_Task
 }
 
 /**
@@ -280,7 +280,7 @@ void disabled() {
  * starts.
  */
 void competition_initialize() {
-  // pros::Task Lift_Task(lift_task); // Re-enabling Lift_Task
+  pros::Task Lift_Task(lift_task); // Re-enabling Lift_Task
 }
 
 /**
