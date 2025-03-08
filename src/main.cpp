@@ -435,7 +435,7 @@ void opcontrol() {
   // This is preference to what you like to drive on
 
 //log test2
-
+pros::Task colorTask(update_lcd); 
   pros::Task color_task(check_color);
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 chassis.opcontrol_joystick_practicemode_toggle(false);
@@ -448,14 +448,14 @@ pros::Task Lift_Task(lift_task);                                //TURN BACK ON!!
 
    if (master.get_digital(DIGITAL_A)) {
 
-    target_set = -1000;
+    target_set = -20;
     } else if (master.get_digital(DIGITAL_Y)) {    
-      target_set = 140;
+      target_set = 185;
     }
 
     if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
     //  target_set = target_set + 100;
-      target_set = 1500;
+      target_set = 1200;
     }
 
 

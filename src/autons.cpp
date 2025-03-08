@@ -74,44 +74,51 @@ void skills(){ //notebook
   chassis.pid_turn_set(225_deg, TURN_SPEED);
   chassis.pid_wait();
   intake.move(127);
-  chassis.pid_drive_set(-23_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-21_in, DRIVE_SPEED, true); //used to be 23
   chassis.pid_wait();
-  chassis.pid_turn_set(190_deg, TURN_SPEED);
+  chassis.pid_turn_set(182_deg, TURN_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(-25_in, DRIVE_SPEED, true); //used to be 24
   chassis.pid_wait();
-  chassis.pid_turn_set(205_deg, TURN_SPEED);
+  chassis.pid_turn_set(205_deg, TURN_SPEED); //turn to blue/red ring
   chassis.pid_wait();
-  chassis.pid_drive_set(-26_in, DRIVE_SPEED, true); //used to be 25
+  chassis.pid_drive_set(-25_in, DRIVE_SPEED, true); //drive to red ring for lb
   chassis.pid_wait();
-  pros::delay(400);
-  LBPID.target_set(180);
-  chassis.pid_turn_set(202_deg, TURN_SPEED);
+  //pros::delay(400);
+  //LBPID.target_set(180);
+  chassis.pid_turn_set(197_deg, TURN_SPEED); //turn before driving to middle of field
   chassis.pid_wait();
-  chassis.pid_drive_set(42_in, DRIVE_SPEED, true); //used to be 40
+  chassis.pid_drive_set(43_in, DRIVE_SPEED, true); //drive to middle of field
   chassis.pid_wait();
   chassis.pid_turn_set(-90_deg, TURN_SPEED); //turn towards wall stake
   chassis.pid_wait();
+  LBPID.target_set(180);
   //intake.move(-100);
   //pros::delay(100);
   //LBPID.target_set(600);
   //intake.move(270);
   chassis.pid_drive_set(-20_in, DRIVE_SPEED, true); //drive to wall stake
-  chassis.pid_wait_until(-15_in); //wait until 15 inches into drive to stop intake
+  //chassis.pid_wait_until(-15_in); //wait until 15 inches into drive to stop intake
+  chassis.pid_wait();
   intake.move(0); //used to be -100
   //chassis.pid_drive_set(.5_in, DRIVE_SPEED, true);
   //chassis.pid_wait();
   //intake.move(-100);
   pros::delay(200);
-  LBPID.target_set(1200);
+  LBPID.target_set(1300);
   intake.move(0);
   pros::delay(800);
   chassis.pid_drive_set(12_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   chassis.pid_turn_set(0_deg, TURN_SPEED);
   chassis.pid_wait();
-  intake.move(105);
-  chassis.pid_drive_set(-58_in, 70, true);
+  intake.move(127);
+  chassis.pid_drive_set(-31_in, 70, true);
+  chassis.pid_wait_quick_chain();
+  intake.move(-127);
+  pros::delay(150);
+  intake.move(127);
+  chassis.pid_drive_set(-22_in, 70, true);
   chassis.pid_wait();
   pros::delay(500);
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
@@ -120,7 +127,7 @@ void skills(){ //notebook
   chassis.pid_wait();
   chassis.pid_turn_set(230_deg, TURN_SPEED);
   chassis.pid_wait();
-  intake.move(270);
+  intake.move(127);
   chassis.pid_drive_set(-18_in, DRIVE_SPEED, true);
   chassis.pid_wait_quick_chain();
   chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
@@ -134,7 +141,7 @@ void skills(){ //notebook
   LBPID.target_set(-20);
   chassis.pid_drive_set(-12_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_turn_set(-95_deg, TURN_SPEED);
+  chassis.pid_turn_set(-92_deg, TURN_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(45_in, DRIVE_SPEED, true);
   chassis.pid_wait_quick_chain();
@@ -147,15 +154,23 @@ void skills(){ //notebook
   chassis.pid_turn_set(175_deg, TURN_SPEED);
   chassis.pid_wait();
   LBPID.target_set(180);
-  chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-16_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_turn_set(135_deg, TURN_SPEED);
+  chassis.pid_turn_set(115_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(-35_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-42_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   chassis.pid_turn_set(90_deg, TURN_SPEED); //turn to other wall stake
   chassis.pid_wait();
-  chassis.pid_drive_set(-14_in, DRIVE_SPEED, true); //drive to other wall stake
+  LBPID.target_set(180);
+  chassis.pid_drive_set(-16_in, DRIVE_SPEED, true); //drive to other wall stake
+  chassis.pid_wait();
+  intake.move(127);
+  chassis.pid_drive_set(18_in, DRIVE_SPEED, true); //drive back from wall stake
+  chassis.pid_wait();
+  chassis.pid_turn_set(0_deg, TURN_SPEED); //turn towards red ring corner
+  chassis.pid_wait();
+  chassis.pid_drive_set(-40_in, DRIVE_SPEED, true); //drive to red rings
   chassis.pid_wait();
 }
 
