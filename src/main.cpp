@@ -399,7 +399,7 @@ void opcontrol() {
   // This is preference to what you like to drive on
 
 //log test2
-
+//pros::Task colorTask(update_lcd); 
   pros::Task color_task(check_color);
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 chassis.opcontrol_joystick_practicemode_toggle(false);
@@ -411,13 +411,13 @@ pros::Task Lift_Task(lift_task);                                //TURN BACK ON!!
    if (master.get_digital(DIGITAL_A)) {     // bottom position
 
     target_set = -1000;
-    } else if (master.get_digital(DIGITAL_Y)) {    //load postion
+    } else if (master.get_digital(DIGITAL_Y)) {    // load position
       target_set = 140;
     }
 
-    if (master.get_digital(DIGITAL_X)) {       // score postion
-    //  target_set = target_set + 100;             // mode for manual control during matches for more control
-      target_set = 1500;                            // mode for skills for automatic constent hight
+    if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
+    //  target_set = target_set + 100;
+      target_set = 1200;
     }
 
     // Gives you some extras to make EZ-Template ezier
