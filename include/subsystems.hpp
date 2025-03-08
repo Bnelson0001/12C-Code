@@ -26,7 +26,7 @@ inline ez::PID LBPID{0.6, 0, .1, 0, "LB"};
 
 inline void lift_wait() {
   
-  while (LBPID.exit_condition({l_LB, r_LB}, true) == ez::RUNNING) {   //rot_LB.get_position()
+  while (LBPID.exit_condition({l_LB, r_LB}, true) == ez::RUNNING) {   
     pros::delay(ez::util::DELAY_TIME);
   }
 }
@@ -49,7 +49,6 @@ target_set = 0;
 
 }
 inline pros::Motor intake(-4);  // Make this number negative if you want to reverse the motor
-
 
 inline pros::Optical OpColor (5);
 

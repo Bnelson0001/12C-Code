@@ -163,7 +163,8 @@ void check_color() {
        }
        // pros::lcd::print(0, "No Color Detected");
       }
-    } else if (current_mode == RED_MODE) {    // RED CODE
+    } 
+    else if (current_mode == RED_MODE) {    // RED CODE
       if (((OpColor.get_hue()) > 190) && ((OpColor.get_hue()) < 350) && (OpColor.get_proximity() <= 255)){ // Blue
         pros::delay(50);
         intake.move(-127);
@@ -181,7 +182,8 @@ void check_color() {
        }
       //  pros::lcd::print(0, "No Color Detected");
       }
-    } else {
+    } 
+    else {
       if (master.get_digital(DIGITAL_L1)) {  //Intake DC
         intake.move(127);
      } 
@@ -209,9 +211,6 @@ void check_color_auto() {
       if ((OpColor.get_hue()) < 17 && (OpColor.get_proximity() <= 300)) { // Red
         sort_active = true;
       }
-        else {
-          sort_active = false;
-        }
       
     } 
     else if (current_mode == RED_MODE) {    // RED CODE
@@ -219,48 +218,21 @@ void check_color_auto() {
         sort_active = true;
       //  pros::lcd::print(0, "Red Detected");
       } 
-      else {
-        sort_active = false;
-      }
     }
-    else {
+
+    if(sort_active){
+      pros::delay(20);
+      intake.move(-127);
+      pros::delay(100);
       sort_active = false;
-    }
-    // Adding a delay to avoid excessive CPU usage
+    } 
    
   }
 }
 
-void intake_auto(){
 
 
- if (auto_intake_control){
-  intake.move(0);
-}
-else if(sort_active){
-  pros::delay(20);
-  intake.move(-127);
-  pros::delay(100);
-  sort_active = false;
-} 
-else {
-  intake.move(127);
-}
 
-if (auto_outtake_control){
-  intake.move(0);
-}
-else if(sort_active){
-  pros::delay(20);
-  intake.move(-127);
-  pros::delay(100);
-  sort_active = false;
-} 
-else {
-  intake.move(-127);
-}
-
-}
 /**
  * Runs while the robot is in the disabled state of Field Management System or
  * the VEX Competition Switch, following either autonomous or opcontrol. When
@@ -296,8 +268,8 @@ void competition_initialize() {
  */
 void autonomous() {
   pros::Task Lift_Task(lift_task);
-  // pros::Task color_task(check_color_auto);
-  // pros::Task intake_task(intake_auto);
+  pros::Task color_task(check_color_auto);
+
   chassis.pid_targets_reset();                // Resets PID targets to 0
   chassis.drive_imu_reset();                  // Reset gyro position to 0
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
@@ -422,14 +394,6 @@ void ez_template_extras() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-void update_lcd() {
-  while (true) {
-   std::cout << "Angle: " << rot_LB.get_position() << std::endl;
-    pros::lcd::print(0, "Angle: %f", rot_LB.get_position());
-    pros::delay(100);  // Update every 20 milliseconds
-  }
-} 
-
 
 void opcontrol() {
   // This is preference to what you like to drive on
@@ -443,28 +407,18 @@ pros::Task Lift_Task(lift_task);                                //TURN BACK ON!!
   while (true) {
 
 
-    LBPID.target_set(target_set);
-
-
-   if (master.get_digital(DIGITAL_A)) {
+    LBPID.target_set(target_set);               // Wall stake mech DC
+   if (master.get_digital(DIGITAL_A)) {     // bottom position
 
     target_set = -1000;
-    } else if (master.get_digital(DIGITAL_Y)) {    
+    } else if (master.get_digital(DIGITAL_Y)) {    //load postion
       target_set = 140;
     }
 
-    if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
-    //  target_set = target_set + 100;
-      target_set = 1500;
+    if (master.get_digital(DIGITAL_X)) {       // score postion
+    //  target_set = target_set + 100;             // mode for manual control during matches for more control
+      target_set = 1500;                            // mode for skills for automatic constent hight
     }
-
-
-
-
-
-    printf("Angle: %ld \n", rot_LB.get_angle());
-    pros::delay(20);
-
 
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
@@ -476,8 +430,6 @@ pros::Task Lift_Task(lift_task);                                //TURN BACK ON!!
 
 
 
-
-
 if (master.get_digital(DIGITAL_R1)) {         //Mogo DC
   MOGOClamp.set(false);
 } 
@@ -485,7 +437,7 @@ else if (master.get_digital(DIGITAL_R2)) {
   MOGOClamp.set(true);
 }   
 
-if (master.get_digital(DIGITAL_LEFT)) {         //Mogo DC
+if (master.get_digital(DIGITAL_LEFT)) {         //Intake piston dc (fail safe reset)
   PIntake.set(false);
 }
 
@@ -493,7 +445,7 @@ if ((master.get_digital(DIGITAL_LEFT)) && (master.get_digital(DIGITAL_RIGHT)) &&
 current_mode = NO_SORT_MODE;
 }
 
-doinker.button_toggle(master.get_digital(DIGITAL_B));                               //TURN BACK ON!!!
+doinker.button_toggle(master.get_digital(DIGITAL_B));                         // doinker dc
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
