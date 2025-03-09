@@ -14,8 +14,8 @@ inline pros::Motor r_LB(-2);
 inline pros::Motor l_LB(3);
 inline pros::Rotation rot_LB (1);
 inline pros::ADIDigitalIn LB_Limit ('h');
-inline bool auto_intake_control = false;
-inline bool auto_outtake_control = false;
+inline bool auto_intake = false;
+inline bool auto_outtake = false;
 
 inline void set_lift(int input) {
   r_LB.move(input);
@@ -40,14 +40,8 @@ inline void lift_task() {
   }
 }
 
-inline void LB_rest_limit (){
-if (LB_Limit.get_value())
-pros::delay(100);
-r_LB.tare_position();
-l_LB.tare_position();
-target_set = 0;
 
-}
+
 inline pros::Motor intake(-4);  // Make this number negative if you want to reverse the motor
 
 inline pros::Optical OpColor (5);

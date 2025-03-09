@@ -226,6 +226,15 @@ void check_color_auto() {
       pros::delay(100);
       sort_active = false;
     } 
+    else if (auto_intake) {
+      intake.move(127);
+    } 
+    else if (auto_outtake){
+      intake.move(-127);
+    }
+    else {
+      intake.move(0);
+    }
    
   }
 }
@@ -394,7 +403,7 @@ void ez_template_extras() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-
+bool down_tog = false;
 void opcontrol() {
   // This is preference to what you like to drive on
 
@@ -405,19 +414,44 @@ void opcontrol() {
 chassis.opcontrol_joystick_practicemode_toggle(false);
 pros::Task Lift_Task(lift_task);                                //TURN BACK ON!!!
   while (true) {
+    r_LB.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    l_LB.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-
-    LBPID.target_set(target_set);               // Wall stake mech DC
+    LBPID.target_set(target_set);    
+    
+    // Wall stake mech DC
    if (master.get_digital(DIGITAL_A)) {     // bottom position
+    //target_set = -20;
+down_tog = true;
 
-    target_set = -1000;
-    } else if (master.get_digital(DIGITAL_Y)) {    // load position
-      target_set = 140;
+  }
+  
+     else if (master.get_digital(DIGITAL_Y)) {    
+      down_tog = false;
+      target_set = 195;
     }
 
     if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
     //  target_set = target_set + 100;
+    down_tog = false;
       target_set = 1200;
+
+    }
+
+if (down_tog){
+    if (LB_Limit.get_value()){
+      pros::delay(100);
+      r_LB.tare_position();
+      l_LB.tare_position();
+      
+      r_LB.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+      l_LB.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+      target_set = -20;
+      down_tog = false;
+      }
+      else{
+     target_set = target_set - 100;
+      }
     }
 
     // Gives you some extras to make EZ-Template ezier
