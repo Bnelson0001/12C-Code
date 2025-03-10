@@ -59,7 +59,7 @@ void skills(){ //notebook
   LBPID.target_set(1350);
   pros::delay(500);
   chassis.pid_drive_set(22_in, DRIVE_SPEED, true);
-  chassis.pid_wait_until(20_in);
+  chassis.pid_wait_until(21_in);
   //chassis.pid_turn_set(-1_deg, 10);
   //chassis.pid_wait();
   MOGOClamp.set(true); //clamp first mogo
@@ -88,11 +88,11 @@ void skills(){ //notebook
   //LBPID.target_set(180);
   chassis.pid_turn_set(197_deg, TURN_SPEED); //turn before driving to middle of field
   chassis.pid_wait();
-  chassis.pid_drive_set(43_in, DRIVE_SPEED, true); //drive to middle of field
+  chassis.pid_drive_set(41.5_in, DRIVE_SPEED, true); //drive to middle of field
   chassis.pid_wait();
-  chassis.pid_turn_set(-91_deg, TURN_SPEED); //turn towards wall stake
+  chassis.pid_turn_set(-90_deg, TURN_SPEED); //turn towards wall stake
   chassis.pid_wait();
-  LBPID.target_set(175);
+  LBPID.target_set(170); //used to be 175
   //intake.move(-100);
   //pros::delay(100);
   //LBPID.target_set(600);
@@ -160,20 +160,20 @@ void skills(){ //notebook
 
   chassis.pid_drive_set(-26_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_turn_set(130_deg, TURN_SPEED);
+  chassis.pid_turn_set(136.5_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(-30.5_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-29_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   LBPID.target_set(145);
   chassis.pid_turn_set(90_deg, TURN_SPEED); //turn to other wall stake
   chassis.pid_wait();
-  chassis.pid_drive_set(-16_in, DRIVE_SPEED, true); //drive to other wall stake
+  chassis.pid_drive_set(-16.5_in, DRIVE_SPEED, true); //drive to other wall stake
   chassis.pid_wait();
   pros::delay(750);
   auto_intake = false;
   LBPID.target_set(1300);
   pros::delay(750);
-  chassis.pid_drive_set(16_in, DRIVE_SPEED, true); //drive back from wall stake
+  chassis.pid_drive_set(15.5_in, DRIVE_SPEED, true); //drive back from wall stake
   chassis.pid_wait();
   auto_intake = true;
   chassis.pid_turn_set(0_deg, TURN_SPEED); //turn towards red ring corner
@@ -193,13 +193,13 @@ void skills(){ //notebook
   chassis.pid_wait();
   chassis.pid_turn_set(-135_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(9.5_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   auto_intake = false;
   auto_outtake = true;
   MOGOClamp.set(false);
   LBPID.target_set(-20);
-  chassis.pid_drive_set(-8_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-9.5_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   auto_outtake = false;
   auto_intake = true;
@@ -215,31 +215,53 @@ void skills(){ //notebook
 
   chassis.pid_turn_set(44_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(21_in, DRIVE_SPEED, true);
-  chassis.pid_wait_until(20_in);
+  chassis.pid_drive_set(11_in, DRIVE_SPEED, true); //used to be 21
+  //chassis.pid_wait_until(20.5_in); //used to be 20
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(10_in, DRIVE_SPEED, 70);
+  chassis.pid_wait();
   MOGOClamp.set(true); //clamp first mog
   chassis.pid_wait();
-  chassis.pid_drive_set(2_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-3.25_in, DRIVE_SPEED, true); //used to be 2
   chassis.pid_wait();
-  auto_intake = false;            // intake stop before goal grab fro allaince stake
+  auto_intake = false; // intake stop before goal grab for allaince stake
   pros::delay(250);
-  chassis.pid_turn_set(185_deg, TURN_SPEED);
+  chassis.pid_turn_set(177_deg, TURN_SPEED); //turn towards alliance stake
   chassis.pid_wait();
-  chassis.pid_drive_set(-17_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-16.75_in, DRIVE_SPEED, true); //drive to alliance stake
   chassis.pid_wait();
-  chassis.pid_drive_set(6.5_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(6.25_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   pros::delay(600);
   LBPID.target_set(1300);
   pros::delay(750);
-  chassis.pid_drive_set(10_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(13_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  LBPID.target_set(300);
-  chassis.pid_turn_set(-45_deg, TURN_SPEED);
+  LBPID.target_set(500);
+  chassis.pid_turn_set(-47_deg, TURN_SPEED);
+  chassis.pid_wait();
+  auto_intake = true;
+  chassis.pid_drive_set(-35_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(235_deg, TURN_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(-35_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  auto_intake = true;
+  chassis.pid_turn_set(85_deg, TURN_SPEED);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(30_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+  MOGOClamp.set(false);
+  chassis.pid_drive_set(-12_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-80_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(50_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-18_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_turn_set(-45_deg, TURN_SPEED);
+  chassis.pid_wait_quick_chain();
   // chassis.pid_turn_set(0_deg, TURN_SPEED);
   // chassis.pid_wait();
   // chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
@@ -248,8 +270,18 @@ void skills(){ //notebook
 }
 
 void solo_blue(){  //notebook
-  chassis.pid_drive_set(22_in, DRIVE_SPEED, true);
-  intake.move(127); //start spinning intake
+  chassis.drive_angle_set(45_deg);
+  chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  pros::delay(200);
+  LBPID.target_set(1300);
+  pros::delay(400);
+  chassis.pid_drive_set(30_in, DRIVE_SPEED, true); //prob add slow here
+  chassis.pid_wait();
+  MOGOClamp.set(true);
+  chassis.pid_turn_set(-90_deg, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 }
 
