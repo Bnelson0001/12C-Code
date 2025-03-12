@@ -92,7 +92,7 @@ void skills(){ //notebook
   chassis.pid_wait();
   chassis.pid_turn_set(-90_deg, TURN_SPEED); //turn towards wall stake
   chassis.pid_wait();
-  LBPID.target_set(170); //used to be 175
+  LBPID.target_set(165); //used to be 175
   //intake.move(-100);
   //pros::delay(100);
   //LBPID.target_set(600);
@@ -162,7 +162,7 @@ void skills(){ //notebook
   chassis.pid_wait();
   chassis.pid_turn_set(136.5_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(-29_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-29_in, DRIVE_SPEED, true); //used to be -29
   chassis.pid_wait();
   LBPID.target_set(145);
   chassis.pid_turn_set(90_deg, TURN_SPEED); //turn to other wall stake
@@ -233,34 +233,36 @@ void skills(){ //notebook
   chassis.pid_drive_set(6.25_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   pros::delay(600);
-  LBPID.target_set(1300);
+  LBPID.target_set(1300); //put ring on alliance stake
   pros::delay(750);
-  chassis.pid_drive_set(13_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(12.5_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   LBPID.target_set(500);
-  chassis.pid_turn_set(-47_deg, TURN_SPEED);
+  chassis.pid_turn_set(-53_deg, TURN_SPEED);
   chassis.pid_wait();
   auto_intake = true;
   chassis.pid_drive_set(-35_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_turn_set(235_deg, TURN_SPEED);
+  chassis.pid_turn_set(210_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(-35_in, DRIVE_SPEED, true);
+  doinker.set(true);
+  chassis.pid_drive_set(-35_in, DRIVE_SPEED, true); //drive to corner
   chassis.pid_wait();
-  chassis.pid_turn_set(85_deg, TURN_SPEED);
+  chassis.pid_turn_set(45_deg, TURN_SPEED); //turn around
   chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(30_in, DRIVE_SPEED, true);
+  doinker.set(false);
+  chassis.pid_drive_set(22_in, DRIVE_SPEED, true); //drive to corner, mogo facing corner
   chassis.pid_wait_quick_chain();
-  MOGOClamp.set(false);
-  chassis.pid_drive_set(-12_in, DRIVE_SPEED, true);
+  MOGOClamp.set(false); //drop goal in corner
+  chassis.pid_drive_set(-12_in, DRIVE_SPEED, true); //drive forward
   chassis.pid_wait();
-  chassis.pid_turn_set(-80_deg, TURN_SPEED);
+  chassis.pid_turn_set(-85_deg, TURN_SPEED); //turn towards pushy goal
   chassis.pid_wait();
-  chassis.pid_drive_set(50_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(105_in, 110, true); //push goal into other corner
   chassis.pid_wait();
-  chassis.pid_drive_set(-18_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-18_in, DRIVE_SPEED, true); //drive away from corner
   chassis.pid_wait_quick_chain();
-  chassis.pid_turn_set(-45_deg, TURN_SPEED);
+  chassis.pid_turn_set(135_deg, TURN_SPEED); //turn towards ladder
   chassis.pid_wait_quick_chain();
   // chassis.pid_turn_set(0_deg, TURN_SPEED);
   // chassis.pid_wait();
@@ -270,18 +272,50 @@ void skills(){ //notebook
 }
 
 void solo_blue(){  //notebook
-  chassis.drive_angle_set(45_deg);
-  chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
+  chassis.drive_angle_set(60_deg);
+  chassis.pid_drive_set(-3_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  pros::delay(200);
+  pros::delay(100); //used to be 200
   LBPID.target_set(1300);
-  pros::delay(400);
-  chassis.pid_drive_set(30_in, DRIVE_SPEED, true); //prob add slow here
+  pros::delay(400); //used to be 400
+  chassis.pid_drive_set(15_in, DRIVE_SPEED, true); //prob add slow here
+  chassis.pid_wait();
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+  LBPID.target_set(-20);
+  chassis.pid_drive_set(19_in, 70, true);
   chassis.pid_wait();
   MOGOClamp.set(true);
-  chassis.pid_turn_set(-90_deg, DRIVE_SPEED, true);
+  auto_intake = true;
+  chassis.pid_turn_set(-110_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-17_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_drive_set(17_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-150_deg, TURN_SPEED);
+  chassis.pid_wait();
+  doinker.set(true);
+  chassis.pid_drive_set(-28_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_drive_set(35_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(78_deg, TURN_SPEED); //for regular match, make this 105
+  chassis.pid_wait();
+  MOGOClamp.set(false);
+  //PIntake.set(true);
+  chassis.pid_drive_set(-40_in, DRIVE_SPEED, true); 
+  chassis.pid_wait();
+  auto_intake = false;
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(25_in, 70, true);
+  chassis.pid_wait();
+  MOGOClamp.set(true);
+  auto_intake = true;
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 }
 
