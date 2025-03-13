@@ -53,7 +53,7 @@ chassis.pid_swing_constants_backward_set(6.90, 0.0, 55.0);   // Swing constants
 
 
 
-void skills(){ //notebook          
+void skills(){         
   chassis.drive_angle_set(45_deg);
   pros::delay(100);
   LBPID.target_set(1350);
@@ -271,20 +271,26 @@ void skills(){ //notebook
 
 }
 
-void solo_blue(){  //notebook
-  chassis.drive_angle_set(60_deg);
+void solo_blue(){ 
+  chassis.drive_angle_set(45_deg);
   chassis.pid_drive_set(-3_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  pros::delay(100); //used to be 200
+  pros::delay(50); //used to be 200
   LBPID.target_set(1300);
   pros::delay(400); //used to be 400
-  chassis.pid_drive_set(15_in, DRIVE_SPEED, true); //prob add slow here
+  chassis.pid_drive_set(15.5_in, DRIVE_SPEED, true); //prob add slow here
   chassis.pid_wait();
+  //chassis.pid_turn_set(-.5_deg, TURN_SPEED);
+  //chassis.pid_wait();
+  //LBPID.target_set(-20);
+  //chassis.pid_drive_set(16.5_in, 50, true);
+  //chassis.pid_wait();
+  //pros::delay(150);
+  //MOGOClamp.set(true);
   chassis.pid_turn_set(0_deg, TURN_SPEED);
   chassis.pid_wait();
-  LBPID.target_set(-20);
-  chassis.pid_drive_set(19_in, 70, true);
-  chassis.pid_wait();
+  chassis.pid_drive_set(16_in, DRIVE_SPEED, true);
+  chassis.pid_wait_until(15_in);
   MOGOClamp.set(true);
   auto_intake = true;
   chassis.pid_turn_set(-110_deg, TURN_SPEED);
@@ -293,13 +299,14 @@ void solo_blue(){  //notebook
   chassis.pid_wait();
   chassis.pid_drive_set(17_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_turn_set(-150_deg, TURN_SPEED);
+  chassis.pid_turn_set(-147_deg, TURN_SPEED);
   chassis.pid_wait();
   doinker.set(true);
-  chassis.pid_drive_set(-28_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-26_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  chassis.pid_drive_set(35_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(37_in, DRIVE_SPEED, true);
   chassis.pid_wait();
+  doinker.set(false);
   chassis.pid_turn_set(78_deg, TURN_SPEED); //for regular match, make this 105
   chassis.pid_wait();
   MOGOClamp.set(false);
@@ -309,33 +316,148 @@ void solo_blue(){  //notebook
   auto_intake = false;
   chassis.pid_turn_set(0_deg, TURN_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(25_in, 70, true);
-  chassis.pid_wait();
+  chassis.pid_drive_set(20_in, 50, true);
+  chassis.pid_wait_until(19);
   MOGOClamp.set(true);
   auto_intake = true;
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
   chassis.pid_wait();
+  chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+  LBPID.target_set(1100);
+  chassis.pid_turn_set(-135_deg, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+  chassis.pid_drive_set(-12_in, 50, true);
+  chassis.pid_wait();
+
 }
 
 void solo_red(){
- }
-
-void safe_ring(){             
- 
 }
 
-void mirror_safe_ring(){            
- 
+void test_slot(){ //currently alternative solo awp
+  chassis.drive_angle_set(60_deg);
+  chassis.pid_drive_set(-3_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  pros::delay(200); //used to be 200
+  LBPID.target_set(1300);
+  pros::delay(400); //used to be 400
+  chassis.pid_drive_set(15_in, DRIVE_SPEED, true); //prob add slow here
+  chassis.pid_wait();
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+  LBPID.target_set(-20);
+  chassis.pid_drive_set(23_in, 70, true);
+  chassis.pid_wait();
+  pros::delay(150);
+  MOGOClamp.set(true);
+  auto_intake = true;
+  chassis.pid_turn_set(-140_deg, TURN_SPEED);
+  chassis.pid_wait();
+  doinker.set(true);
+  chassis.pid_drive_set(-28_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  chassis.pid_drive_set(11_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+  auto_intake = false;
+  chassis.pid_drive_set(11_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  auto_intake = true;
+  doinker.set(false);
+  pros::delay(400);
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  //doinker.set(false);
+  chassis.pid_drive_set(-24_in, 50, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(65_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-12_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+  MOGOClamp.set(false);
+  chassis.pid_drive_set(-20_in, 90, true);
+  chassis.pid_wait_quick_chain();
+  auto_intake = false;
+  chassis.pid_drive_set(-20_in, 90, true);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-20_deg, TURN_SPEED);
+  chassis.pid_wait();
+}
+
+void blue_ring(){
+  //set starting angle
+  chassis.drive_angle_set(170_deg);
+
+  //put down doinker and start intake
+  doinker.set(true);
+  auto_intake = true;
+
+  //drive to 4 ring stack
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  
+  //wait a bit and then turn off intake
+  pros::delay(200);
+  auto_intake = false;
+
+  //turn towards mogo
+  chassis.pid_turn_set(150_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive to mogo and clamp
+  chassis.pid_drive_set(18_in, 70, true);
+  chassis.pid_wait();
+  MOGOClamp.set(true);
+
+  //turn on intake and swing to rings
+  auto_intake = true; //turn on intake
+  chassis.pid_swing_set(ez::LEFT_SWING, -90_deg, SWING_SPEED, 45);
+  chassis.pid_wait();
+  doinker.set(false);
+
+  //drive over rings and intake
+  chassis.pid_drive_set(-25_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+}
+
+void red_ring(){
+}
+
+void blue_goal(){
+  //set starting angle
+  chassis.drive_angle_set(0_deg);
+
+  //drive to mogo and clamp
+  chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
+  chassis.pid_wait_until(23_in);
+  MOGOClamp.set(true);
+
+  //intake preload
+  auto_intake = true;
+
+  //turn towards ladder
+  chassis.pid_turn_set(-135_deg, TURN_SPEED);
+  chassis.pid_wait();
+  auto_intake = false;
+
+  //drive to center rings and put down first doinker
+  chassis.pid_drive_set(-16_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  doinkerL.set(true);
 }
 
 void red_goal(){
- 
 }
 
-void blue_goal(){  //notebook
-  
+void blue_ring_safe(){             
+}
+
+void red_ring_safe(){            
+}
+
+void blue_ring_sage(){
 }
 
 

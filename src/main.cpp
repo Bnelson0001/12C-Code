@@ -81,13 +81,17 @@ rot_LB.reset_position();
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-     {"BLUE SOLO AWP - ring side start", solo_blue},
-          {"RED SOLO AWP - ring side start", solo_red},
-         {"ELIMS! BLUE Goal Rush\n\n grab goal and score 2 rings on each ", blue_goal},
-                  {"ELIMS! RED Goal Rush\n\n grab goal and score 2 rings on each ", red_goal},
-             {"QUALS!!!! GOAL SIDE RED and BLUE Ring Side \n grab goal and score 2 rings on each ", safe_ring},
-             {"QUALS!!!! GOAL SIDE BLUE and RED Ring Side \n grab goal and score 2 rings on each ", mirror_safe_ring},
-                    {"SKILLS", skills},
+    {"Blue Solo AWP", solo_blue},
+    {"Red Solo AWP", solo_red},
+    {"Test Slot", test_slot},
+    {"Blue Ring Rush (ELIMS)", blue_ring},
+    {"Red Ring Rush (ELIMS)", red_ring},
+    {"Blue Goal Side (ELIMS)", blue_goal},
+    {"Red Goal Side (ELIMS)", red_goal},
+    {"Blue Ring Side (QUALS)", blue_ring_safe},
+    {"Red Ring Side (QUALS)", red_ring_safe},
+    {"Autonomous Skills", skills},
+
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
@@ -432,9 +436,10 @@ down_tog = true;
     }
 
     if (master.get_digital(DIGITAL_X)) {       //Lady Brown DC
-    //  target_set = target_set + 100;
+
     down_tog = false;
-      target_set = 1200;
+    target_set = target_set + 100;
+      //target_set = 1200;
 
     }
 
