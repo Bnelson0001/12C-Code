@@ -388,37 +388,61 @@ void test_slot(){ //currently alternative solo awp
 
 void blue_ring(){
   //set starting angle
-  chassis.drive_angle_set(170_deg);
+  chassis.drive_angle_set(-170_deg);
 
   //put down doinker and start intake
   doinker.set(true);
   auto_intake = true;
 
   //drive to 4 ring stack
-  chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-42_in, DRIVE_SPEED, true);
   chassis.pid_wait();
   
   //wait a bit and then turn off intake
   pros::delay(200);
   auto_intake = false;
 
-  //turn towards mogo
-  chassis.pid_turn_set(150_deg, TURN_SPEED);
+  //swing to mogo and clamp
+  chassis.pid_swing_set(ez::LEFT_SWING, -85_deg, SWING_SPEED, 23);
+  chassis.pid_wait_until(-75_deg);
+  doinker.set(false);
   chassis.pid_wait();
+  pros::delay(400);
 
-  //drive to mogo and clamp
-  chassis.pid_drive_set(18_in, 70, true);
+  //move back a little and clamp
+  chassis.pid_drive_set(3_in, 50, true);
   chassis.pid_wait();
   MOGOClamp.set(true);
 
-  //turn on intake and swing to rings
-  auto_intake = true; //turn on intake
-  chassis.pid_swing_set(ez::LEFT_SWING, -90_deg, SWING_SPEED, 45);
-  chassis.pid_wait();
+  //turn to line up with rings
   doinker.set(false);
+  pros::delay(200);
+  chassis.pid_turn_set(-80_deg, TURN_SPEED);
+  chassis.pid_wait();
 
-  //drive over rings and intake
-  chassis.pid_drive_set(-25_in, DRIVE_SPEED, true);
+  //drive over rings
+  auto_intake = true;
+  chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  //turn towards corner
+  chassis.pid_turn_set(-45_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive to corner
+  chassis.pid_drive_set(-26_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  //drive back
+  chassis.pid_drive_set(20_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  //turn towards preload
+  chassis.pid_turn_set(75_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive to preload and then middle ring
+  chassis.pid_drive_set(-40_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 }
 
@@ -457,10 +481,125 @@ void blue_ring_safe(){
 void red_ring_safe(){            
 }
 
-void blue_ring_sage(){
+void blue_goal_safe(){
+  //set starting angle
+  chassis.drive_angle_set(-45_deg);
+
+  //drive to alliance stake
+  chassis.pid_drive_set(-3_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  //put ring on alliance stake
+  pros::delay(50);
+  LBPID.target_set(1300);
+  pros::delay(400);
+
+  //drive back
+  chassis.pid_drive_set(15.5_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  //turn towards mogo
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive to mogo and clamp
+  chassis.pid_drive_set(16_in, DRIVE_SPEED, true);
+  chassis.pid_wait_until(15_in);
+  MOGOClamp.set(true);
+
+  //turn on intake and turn to rings
+  auto_intake = true;
+  chassis.pid_turn_set(110_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive to rings
+  chassis.pid_drive_set(-18_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  //drive back
+  chassis.pid_drive_set(6_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  //turn towards corner rings
+  chassis.pid_turn_set(39_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive to corner rings
+  chassis.pid_drive_set(-40_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  
+  //wait to move back
+  pros::delay(200);
+
+  //turn towards ladder
+  chassis.pid_turn_set(-135_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive to ladder
+  LBPID.target_set(1100);
+  chassis.pid_drive_set(-25_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
 }
 
+void red_goal_safe(){
+  //set starting angle
+  chassis.drive_angle_set(45_deg);
 
+  //drive to alliance stake
+  chassis.pid_drive_set(-3_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  //put ring on alliance stake
+  pros::delay(50);
+  LBPID.target_set(1300);
+  pros::delay(400);
+
+  //drive back
+  chassis.pid_drive_set(15.5_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  //turn towards mogo
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive to mogo and clamp
+  chassis.pid_drive_set(16_in, DRIVE_SPEED, true);
+  chassis.pid_wait_until(15_in);
+  MOGOClamp.set(true);
+
+  //turn on intake and turn to rings
+  auto_intake = true;
+  chassis.pid_turn_set(-110_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive to rings
+  chassis.pid_drive_set(-18_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  //drive back
+  chassis.pid_drive_set(6_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  //turn towards corner rings
+  chassis.pid_turn_set(-39_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive to corner rings
+  chassis.pid_drive_set(-40_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+  
+  //wait to move back
+  pros::delay(200);
+
+  //turn towards ladder
+  chassis.pid_turn_set(135_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  //drive to ladder
+  LBPID.target_set(1100);
+  chassis.pid_drive_set(-25_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+}
 
 
 
