@@ -81,11 +81,11 @@ rot_LB.reset_position();
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-    {"Blue Ring Rush (ELIMS)", blue_ring},
+    {"Autonomous Skills", skills},
     {"Blue Solo AWP", solo_blue},
     {"Red Solo AWP", solo_red},
     {"Test Slot", test_slot},
-    //{"Blue Ring Rush (ELIMS)", blue_ring},
+    {"Blue Ring Rush (ELIMS)", blue_ring},
     {"Red Ring Rush (ELIMS)", red_ring},
     {"Blue Goal Side (ELIMS)", blue_goal},
     {"Red Goal Side (ELIMS)", red_goal},
@@ -93,7 +93,7 @@ rot_LB.reset_position();
     {"Red Ring Side (QUALS)", red_ring_safe},
     {"Blue Goal Side (QUALS)", blue_goal_safe},
     {"Red Goal Side (QUALS)", red_goal_safe},
-    {"Autonomous Skills", skills},
+    //{"Autonomous Skills", skills},
 
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
@@ -148,6 +148,8 @@ void toggle_color_mode() {
 
 
         int color_value = OpColor.get_hue();
+
+ 
 void check_color() {
   while (true) {
 
@@ -209,9 +211,11 @@ void check_color() {
   }
 }
 
+bool color_sort_auto_active = true;
 
 void check_color_auto() {
   while (true) {
+    if (!color_sort_auto_active) {return;}
 
     // Check if the hue is less than the red threshold or greater than the blue threshold
     if (current_mode == BLUE_MODE) {    // Blue CODE    
@@ -242,7 +246,8 @@ void check_color_auto() {
     else {
       intake.move(0);
     }
-   
+    pros::delay(10);
+
   }
 }
 
@@ -413,13 +418,11 @@ void ez_template_extras() {
 bool down_tog = false;
 void opcontrol() {
   // This is preference to what you like to drive on
-
-//log test2
-//pros::Task colorTask(update_lcd); 
-  pros::Task color_task(check_color);
-  chassis.drive_brake_set(MOTOR_BRAKE_COAST);
-chassis.opcontrol_joystick_practicemode_toggle(false);
-pros::Task Lift_Task(lift_task);                                //TURN BACK ON!!!
+  color_sort_auto_active = false;
+    chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+  chassis.opcontrol_joystick_practicemode_toggle(false);
+  pros::Task Color_Task(check_color);  
+  pros::Task Lift_Task(lift_task);                                //TURN BACK ON!!!
   while (true) {
     r_LB.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     l_LB.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
